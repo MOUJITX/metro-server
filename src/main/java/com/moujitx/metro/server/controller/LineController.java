@@ -4,18 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.moujitx.metro.server.authorization.AuthAccess;
 import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.Line;
-import com.moujitx.metro.server.entity.LineStationVo;
 import com.moujitx.metro.server.service.LineService;
-import com.moujitx.metro.server.service.LineStationVoService;
 import com.moujitx.metro.server.service.LineVoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.sql.Wrapper;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/line")
@@ -27,26 +19,28 @@ public class LineController {
     @Autowired
     LineVoService lineVoService;
 
-    @Autowired
-    LineStationVoService lineStationVoService;
-
     @AuthAccess
-    @GetMapping("/list")
+    @GetMapping("/")
     public Result list() {
         return Result.ok(lineVoService.list());
     }
 
-    @AuthAccess
-    @GetMapping("/stations")
-    public Result stationList() {
-        return Result.ok(lineStationVoService.list());
+    @GetMapping()
+    public Result get(@RequestParam String cityCode, @RequestParam String lineCode) {
+        QueryWrapper<Line> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("city_code", cityCode).eq("line_code", lineCode);
+        return Result.ok(lineService.list(queryWrapper));
     }
 
-    @AuthAccess
-    @GetMapping("/stations/{cityCode}/{lineCode}")
-    public Result lineStations(@PathVariable String cityCode, @PathVariable String lineCode) {
-        QueryWrapper<LineStationVo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("city_code", cityCode).eq("line_code", lineCode);
-        return Result.ok(lineStationVoService.list(queryWrapper));
+    @PostMapping()
+    public Result addOrUpdate(@RequestBody Line line) {
+        return Result.created(lineService.saveOrUpdate(line));
+    }
+
+    @DeleteMapping()
+    public Result delete(@RequestParam String uuid) {
+        QueryWrapper<Line> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("uuid", uuid);
+        return Result.ok(lineService.remove(queryWrapper));
     }
 }

@@ -2,10 +2,10 @@ package com.moujitx.metro.server.exception;
 
 import com.moujitx.metro.server.common.Result;
 import com.qiniu.common.QiniuException;
-import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -46,6 +46,13 @@ public class GlobalException {
     @ExceptionHandler(QiniuException.class)
     @ResponseBody
     public Result qiniuException(QiniuException e) {
+        return Result.internalServerError(e.getMessage());
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseBody
+    public Result exception(NoHandlerFoundException e) {
+        System.out.println("e: "+e);
         return Result.internalServerError(e.getMessage());
     }
 }
