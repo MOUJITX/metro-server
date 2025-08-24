@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.moujitx.metro.server.mapper.LineVoMapper">
+
+    <resultMap id="BaseResultMap" type="com.moujitx.metro.server.entity.LineVo">
+            <result property="lineUuid" column="line_uuid" jdbcType="VARCHAR"/>
+            <result property="cityCode" column="city_code" jdbcType="VARCHAR"/>
+            <result property="cityName" column="city_name" jdbcType="VARCHAR"/>
+            <result property="lineName" column="line_name" jdbcType="VARCHAR"/>
+            <result property="lineCycle" column="line_cycle" jdbcType="TINYINT"/>
+            <result property="typeName" column="type_name" jdbcType="VARCHAR"/>
+            <result property="enableDate" column="enable_date" jdbcType="DATE"/>
+            <result property="lineColor" column="line_color" jdbcType="VARCHAR"/>
+            <result property="typeCode" column="type_code" jdbcType="VARCHAR"/>
+            <result property="lineLogo" column="line_logo" jdbcType="VARCHAR"/>
+            <result property="lineStatus" column="line_status" jdbcType="VARCHAR"/>
+            <result property="lineEn" column="line_en" jdbcType="VARCHAR"/>
+            <result property="lineCompany" column="line_company" jdbcType="VARCHAR"/>
+            <result property="lineCode" column="line_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        line_uuid,city_code,city_name,line_name,line_cycle,type_name,
+        enable_date,line_color,type_code,line_logo,line_status,
+        line_en,line_company,line_code
+    </sql>
+</mapper>

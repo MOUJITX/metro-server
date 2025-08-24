@@ -3,6 +3,7 @@ package com.moujitx.metro.server.common;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
  * Date: 2023/12/3 21:17
  */
 @Configuration
+@MapperScan("com.moujitx.metro.server.mapper")
 public class MybatisPlusConfig {
 
     /**

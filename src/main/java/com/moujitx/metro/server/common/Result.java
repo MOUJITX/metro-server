@@ -60,34 +60,34 @@ public class Result {
     }
 
     public static Result badRequest() {
-        return new Result(CODE_ERROR_BAD_REQUEST, "bad request", null);
+        return new Result(CODE_ERROR_BAD_REQUEST, "Bad Request", null);
     }
 
     public static Result badRequest(String data) {
-        return new Result(CODE_ERROR_BAD_REQUEST, "bad request", data);
+        return new Result(CODE_ERROR_BAD_REQUEST, "Bad Request", data);
     }
 
     public static Result unauthorized(String data) {
-        return new Result(CODE_ERROR_UNAUTHORIZED, "unauthorized", data);
+        return new Result(CODE_ERROR_UNAUTHORIZED, "Unauthorized", data);
     }
 
     public static Result notFound() {
-        return new Result(CODE_ERROR_NOT_FOUND, "not found", null);
+        return new Result(CODE_ERROR_NOT_FOUND, "Not Found", null);
     }
 
     public static Result notFound(String data) {
-        return new Result(CODE_ERROR_NOT_FOUND, "not found", data);
+        return new Result(CODE_ERROR_NOT_FOUND, "Not Found", data);
     }
 
     public static Result conflict() {
-        return new Result(CODE_ERROR_CONFLICT, "conflict", null);
+        return new Result(CODE_ERROR_CONFLICT, "Conflict", null);
     }
 
     public static Result conflict(String data) {
-        return new Result(CODE_ERROR_CONFLICT, "conflict", data);
+        return new Result(CODE_ERROR_CONFLICT, "Conflict", data);
     }
 
     public static Result internalServerError(String data) {
-        return new Result(CODE_ERROR_CONFLICT, "internal server error", data);
+        return new Result(CODE_ERROR_INTERNAL_SERVER_ERROR, "Internal Server Error", data);
     }
 }
