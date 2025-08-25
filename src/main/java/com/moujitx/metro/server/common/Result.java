@@ -9,6 +9,7 @@ import lombok.*;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Result {
     public static final Integer CODE_SUCCESS_OK = 200;
     public static final Integer CODE_SUCCESS_CREATED = 201;

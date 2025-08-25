@@ -44,7 +44,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             throw new AuthorizationException("TOKEN为空");
         }
 
-        if (TokenUtils.verifyToken(token)) {
+        if (Boolean.TRUE.equals(TokenUtils.verifyToken(token))) {
             return true;
         } else {
             throw new AuthorizationException();
