@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * @TableName bind
  */
-@TableName(value ="bind")
+@TableName(value = "bind")
 @Data
 public class Bind {
     @TableId(type = IdType.ASSIGN_UUID)

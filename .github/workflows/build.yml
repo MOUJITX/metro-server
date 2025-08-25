@@ -28,7 +28,7 @@ jobs:
           username: 'root'
           server: '${{ secrets.REMOTE_HOST }}'
           ssh_private_key: ${{ secrets.REMOTE_PRIVATE_KEY }}
-          local_path: './target/server-2.7.16-SNAPSHOT.jar'
+          local_path: './target/metro_server-2508.jar'
           remote_path: ${{ secrets.REMOTE_PATH }}
 #          last_ssh: |
 #            java-service blog restart

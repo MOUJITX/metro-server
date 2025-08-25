@@ -7,16 +7,12 @@ import com.moujitx.metro.server.mapper.TypeMapper;
 import org.springframework.stereotype.Service;
 
 /**
-* @author Administrator
-* @description 针对表【type】的数据库操作Service实现
-* @createDate 2025-08-24 18:52:26
-*/
+ * @author Administrator
+ * @description 针对表【type】的数据库操作Service实现
+ * @createDate 2025-08-24 18:52:26
+ */
 @Service
 public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type>
-    implements TypeService{
+        implements TypeService {
 
 }
-
-
-
-

@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * @TableName line_station_vo
  */
-@TableName(value ="line_station_vo")
+@TableName(value = "line_station_vo")
 @Data
 public class LineStationVo {
     private String bindUuid;

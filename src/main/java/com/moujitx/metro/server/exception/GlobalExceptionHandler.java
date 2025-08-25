@@ -17,7 +17,7 @@ import java.sql.SQLException;
  */
 
 @ControllerAdvice
-public class GlobalException {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(ServiceException.class)
     @ResponseBody
@@ -52,7 +52,6 @@ public class GlobalException {
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseBody
     public Result exception(NoHandlerFoundException e) {
-        System.out.println("e: "+e);
         return Result.internalServerError(e.getMessage());
     }
 }

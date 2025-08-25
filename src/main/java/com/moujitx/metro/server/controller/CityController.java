@@ -5,15 +5,17 @@ import com.moujitx.metro.server.authorization.AuthAccess;
 import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.City;
 import com.moujitx.metro.server.service.CityService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/city")
+@RequiredArgsConstructor
 public class CityController {
 
-    @Autowired
-    CityService cityService;
+    private final CityService cityService;
 
     @AuthAccess
     @GetMapping("/")

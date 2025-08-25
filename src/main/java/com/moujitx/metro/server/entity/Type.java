@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * @TableName type
  */
-@TableName(value ="type")
+@TableName(value = "type")
 @Data
 public class Type {
 

@@ -10,7 +10,8 @@ import lombok.Getter;
 @Getter
 public class ServiceException extends RuntimeException {
 
-    public ServiceException() {}
+    public ServiceException() {
+    }
 
     public ServiceException(String msg) {
         super(msg);

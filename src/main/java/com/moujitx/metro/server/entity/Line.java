@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * @TableName line
  */
-@TableName(value ="line")
+@TableName(value = "line")
 @Data
 public class Line {
 

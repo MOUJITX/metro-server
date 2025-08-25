@@ -6,7 +6,7 @@ import lombok.Data;
 /**
  * @TableName city
  */
-@TableName(value ="city")
+@TableName(value = "city")
 @Data
 public class City {
 

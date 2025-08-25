@@ -6,18 +6,18 @@ import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.Line;
 import com.moujitx.metro.server.service.LineService;
 import com.moujitx.metro.server.service.LineVoService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/line")
+@RequiredArgsConstructor
 public class LineController {
 
-    @Autowired
-    LineService lineService;
-
-    @Autowired
-    LineVoService lineVoService;
+    private final LineService lineService;
+    private final LineVoService lineVoService;
 
     @AuthAccess
     @GetMapping("/")

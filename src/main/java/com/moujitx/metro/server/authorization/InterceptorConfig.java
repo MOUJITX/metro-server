@@ -15,7 +15,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 public class InterceptorConfig extends WebMvcConfigurationSupport {
 
     @Override
-    protected void addInterceptors(@SuppressWarnings("null") InterceptorRegistry registry) {
+    protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/**"); // 拦截所有路径
         super.addInterceptors(registry);

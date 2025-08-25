@@ -7,18 +7,18 @@ import com.moujitx.metro.server.entity.Bind;
 import com.moujitx.metro.server.entity.LineStationVo;
 import com.moujitx.metro.server.service.BindService;
 import com.moujitx.metro.server.service.LineStationVoService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/bind")
+@RequiredArgsConstructor
 public class BindController {
 
-    @Autowired
-    LineStationVoService lineStationVoService;
-
-    @Autowired
-    BindService bindService;
+    private final LineStationVoService lineStationVoService;
+    private final BindService bindService;
 
     @AuthAccess
     @GetMapping("/")

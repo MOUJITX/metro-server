@@ -10,7 +10,8 @@ import lombok.Getter;
 @Getter
 public class AuthorizationException extends RuntimeException {
 
-    public AuthorizationException() {}
+    public AuthorizationException() {
+    }
 
     public AuthorizationException(String msg) {
         super(msg);

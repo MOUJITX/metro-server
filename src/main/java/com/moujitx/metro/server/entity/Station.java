@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * @TableName station
  */
-@TableName(value ="station")
+@TableName(value = "station")
 @Data
 public class Station {
     @TableId(type = IdType.ASSIGN_UUID)

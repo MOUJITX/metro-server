@@ -3,7 +3,8 @@ package com.moujitx.metro.server.utils;
 import cn.hutool.core.date.DateField;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.jwt.JWT;
-import cn.hutool.jwt.JWTPayload;
+import cn.hutool.jwt.RegisteredPayload;
+
 import com.moujitx.metro.server.exception.AuthorizationException;
 import com.moujitx.metro.server.exception.ServiceException;
 
@@ -17,9 +18,11 @@ public class TokenUtils {
         try {
             return JWT.create()
                     .setPayload("uuid", uuid)
-                    .setPayload(JWTPayload.ISSUED_AT, DateTime.now())
-                    .setPayload(JWTPayload.NOT_BEFORE, DateTime.now())
-                    .setPayload(JWTPayload.EXPIRES_AT, DateTime.now().offsetNew(DateField.MINUTE, EXPIRE_TIME_MINUTE))
+                    .setPayload(RegisteredPayload.ISSUED_AT, DateTime.now())
+                    .setPayload(RegisteredPayload.NOT_BEFORE, DateTime.now())
+                    .setPayload(
+                            RegisteredPayload.EXPIRES_AT,
+                            DateTime.now().offsetNew(DateField.MINUTE, EXPIRE_TIME_MINUTE))
                     .setKey(KEY.getBytes())
                     .sign();
         } catch (Exception e) {

@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * @TableName line_vo
  */
-@TableName(value ="line_vo")
+@TableName(value = "line_vo")
 @Data
 public class LineVo {
     private String lineUuid;

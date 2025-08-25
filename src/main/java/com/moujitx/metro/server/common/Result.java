@@ -8,8 +8,6 @@ import lombok.*;
  * Date: 2023/9/17 21:59
  */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class Result {
     public static final Integer CODE_SUCCESS_OK = 200;
@@ -23,16 +21,23 @@ public class Result {
     public static final Integer CODE_ERROR_CONFLICT = 409;
     public static final Integer CODE_ERROR_INTERNAL_SERVER_ERROR = 500;
 
+    public static final String MSG_REQUEST_SUCCESS = "Request Success";
+    public static final String MSG_BAD_REQUEST = "Bad Request";
+    public static final String MSG_UNAUTHORIZED = "Unauthorized";
+    public static final String MSG_NOT_FOUND = "Not Found";
+    public static final String MSG_CONFLICT = "Conflict";
+    public static final String MSG_INTERNAL_SERVER_ERROR = "Internal Server Error";
+
     private Integer code;
     private String msg;
     private Object data;
 
     public static Result ok() {
-        return new Result(CODE_SUCCESS_OK, "Request Success", null);
+        return new Result(CODE_SUCCESS_OK, MSG_REQUEST_SUCCESS, null);
     }
 
     public static Result ok(Object data) {
-        return new Result(CODE_SUCCESS_OK, "Request Success", data);
+        return new Result(CODE_SUCCESS_OK, MSG_REQUEST_SUCCESS, data);
     }
 
     public static Result ok(String msg) {
@@ -44,11 +49,11 @@ public class Result {
     }
 
     public static Result created() {
-        return new Result(CODE_SUCCESS_CREATED, "Request Success", null);
+        return new Result(CODE_SUCCESS_CREATED, MSG_REQUEST_SUCCESS, null);
     }
 
     public static Result created(Object data) {
-        return new Result(CODE_SUCCESS_CREATED, "Request Success", data);
+        return new Result(CODE_SUCCESS_CREATED, MSG_REQUEST_SUCCESS, data);
     }
 
     public static Result created(String msg) {
@@ -60,34 +65,34 @@ public class Result {
     }
 
     public static Result badRequest() {
-        return new Result(CODE_ERROR_BAD_REQUEST, "Bad Request", null);
+        return new Result(CODE_ERROR_BAD_REQUEST, MSG_BAD_REQUEST, null);
     }
 
     public static Result badRequest(String data) {
-        return new Result(CODE_ERROR_BAD_REQUEST, "Bad Request", data);
+        return new Result(CODE_ERROR_BAD_REQUEST, MSG_BAD_REQUEST, data);
     }
 
     public static Result unauthorized(String data) {
-        return new Result(CODE_ERROR_UNAUTHORIZED, "Unauthorized", data);
+        return new Result(CODE_ERROR_UNAUTHORIZED, MSG_UNAUTHORIZED, data);
     }
 
     public static Result notFound() {
-        return new Result(CODE_ERROR_NOT_FOUND, "Not Found", null);
+        return new Result(CODE_ERROR_NOT_FOUND, MSG_NOT_FOUND, null);
     }
 
     public static Result notFound(String data) {
-        return new Result(CODE_ERROR_NOT_FOUND, "Not Found", data);
+        return new Result(CODE_ERROR_NOT_FOUND, MSG_NOT_FOUND, data);
     }
 
     public static Result conflict() {
-        return new Result(CODE_ERROR_CONFLICT, "Conflict", null);
+        return new Result(CODE_ERROR_CONFLICT, MSG_CONFLICT, null);
     }
 
     public static Result conflict(String data) {
-        return new Result(CODE_ERROR_CONFLICT, "Conflict", data);
+        return new Result(CODE_ERROR_CONFLICT, MSG_CONFLICT, data);
     }
 
     public static Result internalServerError(String data) {
-        return new Result(CODE_ERROR_INTERNAL_SERVER_ERROR, "Internal Server Error", data);
+        return new Result(CODE_ERROR_INTERNAL_SERVER_ERROR, MSG_INTERNAL_SERVER_ERROR, data);
     }
 }

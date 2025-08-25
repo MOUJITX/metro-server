@@ -7,16 +7,12 @@ import com.moujitx.metro.server.mapper.BindMapper;
 import org.springframework.stereotype.Service;
 
 /**
-* @author Administrator
-* @description 针对表【bind】的数据库操作Service实现
-* @createDate 2025-08-24 19:23:46
-*/
+ * @author Administrator
+ * @description 针对表【bind】的数据库操作Service实现
+ * @createDate 2025-08-24 19:23:46
+ */
 @Service
 public class BindServiceImpl extends ServiceImpl<BindMapper, Bind>
-    implements BindService{
+        implements BindService {
 
 }
-
-
-
-

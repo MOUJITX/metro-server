@@ -6,18 +6,18 @@ import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.Station;
 import com.moujitx.metro.server.service.StationService;
 import com.moujitx.metro.server.service.StationVoService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/station")
+@RequiredArgsConstructor
 public class StationController {
 
-    @Autowired
-    StationService stationService;
-
-    @Autowired
-    StationVoService stationVoService;
+    private final StationService stationService;
+    private final StationVoService stationVoService;
 
     @AuthAccess
     @GetMapping("/")

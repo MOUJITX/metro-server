@@ -1,6 +1,6 @@
 package com.moujitx.metro.server.authorization;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import com.moujitx.metro.server.exception.AuthorizationException;
 import com.moujitx.metro.server.utils.TokenUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -22,9 +22,11 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 public class JwtInterceptor implements HandlerInterceptor {
 
-    @SuppressWarnings("null")
     @Override
-    public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) {
+    public boolean preHandle(
+            @NotNull HttpServletRequest request,
+            @NotNull HttpServletResponse response,
+            @NotNull Object handler) {
         // 跳过拦截器
         if (handler instanceof HandlerMethod) {
             AuthAccess annotation = ((HandlerMethod) handler).getMethodAnnotation(AuthAccess.class);
@@ -34,11 +36,11 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         String token = request.getHeader("authorization");
-        if (StrUtil.isBlank(token)) {
+        if (CharSequenceUtil.isBlank(token)) {
             token = request.getParameter("token");
         }
 
-        if (StrUtil.isBlank(token)) {
+        if (CharSequenceUtil.isBlank(token)) {
             throw new AuthorizationException("TOKEN为空");
         }
 

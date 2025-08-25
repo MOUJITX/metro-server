@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.moujitx</groupId>
     <artifactId>metro_server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>2508</version>
     <name>com.moujitx.metro.server</name>
     <description>com.moujitx.metro.server</description>
     <properties>
