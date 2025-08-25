@@ -8,7 +8,7 @@ import lombok.*;
  * Date: 2023/9/17 21:59
  */
 @Data
-@Builder
+@AllArgsConstructor
 public class Result {
     public static final Integer CODE_SUCCESS_OK = 200;
     public static final Integer CODE_SUCCESS_CREATED = 201;

@@ -11,6 +11,7 @@ import lombok.Data;
 public class Type {
 
     @OrderBy(sort = 1)
+    @TableId(type = IdType.ASSIGN_ID)
     private String typeCode;
 
     private String typeName;

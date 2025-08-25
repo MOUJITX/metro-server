@@ -1,5 +1,7 @@
 package com.moujitx.metro.server.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -9,6 +11,7 @@ import lombok.Data;
 @TableName(value = "line_station_vo")
 @Data
 public class LineStationVo {
+    @TableId(type = IdType.ASSIGN_UUID)
     private String bindUuid;
 
     private String cityName;

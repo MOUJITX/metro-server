@@ -11,6 +11,7 @@ import lombok.Data;
 public class City {
 
     @OrderBy(sort = 1)
+    @TableId(type = IdType.ASSIGN_ID)
     private String cityCode;
 
     private String cityName;
