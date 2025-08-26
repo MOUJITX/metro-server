@@ -6,6 +6,9 @@ import com.moujitx.metro.server.authorization.AuthAccess;
 import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.SystemUser;
 import com.moujitx.metro.server.entity.SystemUserLogin;
+import com.moujitx.metro.server.service.ISystemPermissionService;
+import com.moujitx.metro.server.service.ISystemRolePermissionService;
+import com.moujitx.metro.server.service.ISystemUserRoleService;
 import com.moujitx.metro.server.service.ISystemUserService;
 import com.moujitx.metro.server.utils.TokenUtils;
 
@@ -17,7 +20,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -33,11 +38,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/system/user")
 public class SystemUserController {
     private final ISystemUserService systemUserService;
+    private final ISystemUserRoleService systemUserRoleService;
+    private final ISystemRolePermissionService systemRolePermissionService;
+    private final ISystemPermissionService systemPermissionService;
 
     @GetMapping("/")
     @AuthAccess
     public Result list() {
         return Result.ok(systemUserService.list());
+    }
+
+    @AuthAccess
+    @DeleteMapping("/{userId}")
+    public Result logicDelete(@PathVariable String userId) {
+        return Result.ok(systemUserService.removeById(userId));
     }
 
     @AuthAccess
@@ -51,6 +65,10 @@ public class SystemUserController {
         resUser.put("email", user.getEmail());
 
         List<String> permissions = new ArrayList<>();
+        systemUserRoleService.getUserRolesByUserId(user.getId()).forEach(
+                role -> systemRolePermissionService.getRolePermissionsByRoleId(role.getRoleId()).forEach(
+                        permission -> permissions.add(systemPermissionService.getPermissionById(
+                                permission.getPermissionId()).getName())));
 
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("token", TokenUtils.generateToken(user.getId()));

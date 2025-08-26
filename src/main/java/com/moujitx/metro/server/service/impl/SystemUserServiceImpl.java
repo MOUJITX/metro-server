@@ -22,13 +22,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUser> implements ISystemUserService {
-    private final SystemUserMapper systemUserMapper;
-
     public SystemUser authenticate(String username, String password) {
         QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);
 
-        SystemUser user = systemUserMapper.selectOne(queryWrapper);
+        SystemUser user = this.getOne(queryWrapper);
 
         if (user == null || !user.getPassword().equals(password)) {
             throw new AuthorizationException();
