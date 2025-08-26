@@ -14,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurationSupport {
 
+    @SuppressWarnings("null")
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor())

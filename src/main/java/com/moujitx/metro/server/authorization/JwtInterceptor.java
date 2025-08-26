@@ -24,9 +24,9 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(
-            @NotNull HttpServletRequest request,
-            @NotNull HttpServletResponse response,
-            @NotNull Object handler) {
+            @SuppressWarnings("null") @NotNull HttpServletRequest request,
+            @SuppressWarnings("null") @NotNull HttpServletResponse response,
+            @SuppressWarnings("null") @NotNull Object handler) {
         // 跳过拦截器
         if (handler instanceof HandlerMethod) {
             AuthAccess annotation = ((HandlerMethod) handler).getMethodAnnotation(AuthAccess.class);
