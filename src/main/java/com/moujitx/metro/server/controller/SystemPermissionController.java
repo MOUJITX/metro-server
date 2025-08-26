@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/SystemPermission")
+@RequestMapping("/system/permission")
 public class SystemPermissionController {
     private final ISystemPermissionService systemPermissionService;
 

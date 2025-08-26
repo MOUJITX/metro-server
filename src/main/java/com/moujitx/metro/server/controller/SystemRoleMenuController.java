@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/SystemRoleMenu")
+@RequestMapping("/system/roleMenu")
 public class SystemRoleMenuController {
     private final ISystemRoleMenuService systemRoleMenuService;
 

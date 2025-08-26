@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/MetroLine")
+@RequestMapping("/metro/line")
 public class MetroLineController {
     private final IMetroLineService metroLineService;
 
@@ -38,6 +38,7 @@ public class MetroLineController {
         return Result.ok(metroLineVoService.list());
     }
 
+    @AuthAccess
     @GetMapping()
     public Result get(@RequestParam String cityCode, @RequestParam String lineCode) {
         QueryWrapper<MetroLine> queryWrapper = new QueryWrapper<>();

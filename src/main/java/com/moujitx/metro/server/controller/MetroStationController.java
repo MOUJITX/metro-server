@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/MetroStation")
+@RequestMapping("/metro/station")
 public class MetroStationController {
     private final IMetroStationService metroStationService;
     private final IMetroStationVoService metroStationVoService;

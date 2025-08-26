@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  控制器
+ * 控制器
  * </p>
  *
  * @author MOUJITX
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/SystemUserRole")
+@RequestMapping("/system/userRole")
 public class SystemUserRoleController {
     private final ISystemUserRoleService systemUserRoleService;
 
