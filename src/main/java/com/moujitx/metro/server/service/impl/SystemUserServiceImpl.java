@@ -8,6 +8,7 @@ import com.moujitx.metro.server.service.ISystemUserService;
 import lombok.RequiredArgsConstructor;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import org.springframework.stereotype.Service;
@@ -38,4 +39,9 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
         return user;
     }
+
+    public Page<SystemUser> page(Integer page, Integer pageSize) {
+        return this.page(new Page<>(page, pageSize));
+    }
+
 }

@@ -1,11 +1,13 @@
 package com.moujitx.metro.server.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.OrderBy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -45,11 +47,12 @@ public class SystemMenu implements Serializable {
     @TableField("router")
     private String router;
 
-    @TableField("order")
-    private Integer order;
+    @OrderBy(sort = 1, asc = true)
+    @TableField("sort")
+    private Integer sort;
 
     @TableField("state")
-    private Boolean state;
+    private Byte state;
 
     @TableField("created_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -63,9 +66,17 @@ public class SystemMenu implements Serializable {
     private String parentId;
 
     @TableField("is_deleted")
-    private Boolean isDeleted;
+    private Byte isDeleted;
 
     @TableField("permission_id")
     private String permissionId;
 
+    @TableField(exist = false)
+    private String rule;
+
+    @TableField(exist = false)
+    private List<SystemMenu> children;
+
+    @TableField(exist = false)
+    private String key;
 }

@@ -1,6 +1,7 @@
 package com.moujitx.metro.server.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -44,11 +45,11 @@ public class SystemUser implements Serializable {
     private String email;
 
     @TableField("status")
-    private Boolean status;
+    private Byte status;
 
     @TableField("is_deleted")
     @TableLogic
-    private Boolean isDeleted;
+    private Byte isDeleted;
 
     @TableField("created_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -58,4 +59,9 @@ public class SystemUser implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
+    @TableField(exist = false)
+    private List<String> roleIds;
+
+    @TableField(exist = false)
+    private List<String> rolesName;
 }

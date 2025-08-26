@@ -1,6 +1,7 @@
 package com.moujitx.metro.server.service;
 
 import com.moujitx.metro.server.entity.SystemUser;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -12,4 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISystemUserService extends IService<SystemUser> {
     SystemUser authenticate(String username, String password);
+
+    Page<SystemUser> page(Integer page, Integer pageSize);
 }

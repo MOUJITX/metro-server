@@ -45,6 +45,6 @@ public class SystemRole implements Serializable {
     private LocalDateTime updatedAt;
 
     @TableField("is_deleted")
-    private Boolean isDeleted;
+    private Byte isDeleted;
 
 }

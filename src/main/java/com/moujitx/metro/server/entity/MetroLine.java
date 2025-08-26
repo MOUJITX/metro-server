@@ -43,7 +43,7 @@ public class MetroLine implements Serializable {
     private String lineEn;
 
     @TableField("line_cycle")
-    private Boolean lineCycle;
+    private Byte lineCycle;
 
     @TableField("line_color")
     private String lineColor;
