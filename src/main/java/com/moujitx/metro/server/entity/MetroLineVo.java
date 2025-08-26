@@ -40,7 +40,7 @@ public class MetroLineVo implements Serializable {
     private String lineName;
 
     @TableField("line_cycle")
-    private Byte lineCycle;
+    private Boolean lineCycle;
 
     @TableField("type_name")
     private String typeName;

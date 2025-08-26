@@ -1,0 +1,21 @@
+package com.moujitx.metro.server.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import com.moujitx.metro.server.service.ISystemRoleMenuService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * <p>
+ *  控制器
+ * </p>
+ *
+ * @author MOUJITX
+ */
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/SystemRoleMenu")
+public class SystemRoleMenuController {
+    private final ISystemRoleMenuService systemRoleMenuService;
+
+}
