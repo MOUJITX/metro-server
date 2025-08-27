@@ -2,6 +2,7 @@ package com.moujitx.metro.server.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.moujitx.metro.server.authorization.AuthAccess;
@@ -15,6 +16,8 @@ import com.moujitx.metro.server.service.ISystemUserRoleService;
 import com.moujitx.metro.server.service.ISystemUserService;
 import com.moujitx.metro.server.utils.TokenUtils;
 
+import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,8 +58,16 @@ public class SystemUserController {
     }
 
     @GetMapping("/page")
-    public Result page(@RequestParam Integer page, @RequestParam Integer pageSize) {
-        Page<SystemUser> users = systemUserService.page(page, pageSize);
+    public Result page(
+            @RequestParam Integer page,
+            @RequestParam Integer pageSize,
+            @RequestParam(defaultValue = "false") Boolean fuzzy,
+            @RequestParam(defaultValue = "") String username) {
+        QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(CharSequenceUtil.isNotBlank(username) && Boolean.FALSE.equals(fuzzy), "username", username)
+                .like(Boolean.TRUE.equals(fuzzy), "username", username);
+
+        Page<SystemUser> users = systemUserService.page(page, pageSize, queryWrapper);
 
         IPage<SystemUser> usersPage = users.convert(user -> {
             List<String> roleNames = systemUserRoleService.getUserRoleNamesByUserId(user.getId());

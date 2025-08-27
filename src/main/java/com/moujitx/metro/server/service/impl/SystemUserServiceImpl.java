@@ -41,8 +41,8 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
         return user;
     }
 
-    public Page<SystemUser> page(Integer page, Integer pageSize) {
-        return this.page(new Page<>(page, pageSize));
+    public Page<SystemUser> page(Integer page, Integer pageSize, QueryWrapper<SystemUser> queryWrapper) {
+        return this.page(new Page<>(page, pageSize), queryWrapper);
     }
 
     public String addUser(SystemUser systemUser) {
