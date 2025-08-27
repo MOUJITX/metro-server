@@ -46,7 +46,7 @@ public class MetroStationController {
 
     @PostMapping()
     public Result addOrUpdate(@RequestBody MetroStation station) {
-        return Result.created(metroStationService.saveOrUpdate(station));
+        return Result.ok(metroStationService.saveOrUpdate(station));
     }
 
     @DeleteMapping()

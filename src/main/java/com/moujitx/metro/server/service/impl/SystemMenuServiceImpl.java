@@ -4,10 +4,7 @@ import com.moujitx.metro.server.entity.SystemMenu;
 import com.moujitx.metro.server.mapper.SystemMenuMapper;
 import com.moujitx.metro.server.mapper.SystemPermissionMapper;
 import com.moujitx.metro.server.service.ISystemMenuService;
-import com.moujitx.metro.server.service.ISystemUserRoleService;
-
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

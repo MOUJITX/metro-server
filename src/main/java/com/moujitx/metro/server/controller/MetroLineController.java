@@ -48,7 +48,7 @@ public class MetroLineController {
 
     @PostMapping()
     public Result addOrUpdate(@RequestBody MetroLine line) {
-        return Result.created(metroLineService.saveOrUpdate(line));
+        return Result.ok(metroLineService.saveOrUpdate(line));
     }
 
     @DeleteMapping()

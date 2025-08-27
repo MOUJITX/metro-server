@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
@@ -66,4 +67,7 @@ public class MetroLine implements Serializable {
     @TableField("line_status")
     private String lineStatus;
 
+    @TableLogic
+    @TableField("is_deleted")
+    private Byte isDeleted;
 }

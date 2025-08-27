@@ -40,7 +40,7 @@ public class MetroTypeController {
 
     @PostMapping()
     public Result addOrUpdate(@RequestBody MetroType type) {
-        return Result.created(metroTypeService.saveOrUpdate(type));
+        return Result.ok(metroTypeService.saveOrUpdate(type));
     }
 
     @DeleteMapping()

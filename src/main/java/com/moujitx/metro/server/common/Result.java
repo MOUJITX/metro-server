@@ -12,7 +12,6 @@ import lombok.*;
 @NoArgsConstructor
 public class Result {
     public static final Integer CODE_SUCCESS_OK = 200;
-    public static final Integer CODE_SUCCESS_CREATED = 201;
     public static final Integer CODE_ERROR_BAD_REQUEST = 400;
     public static final Integer CODE_ERROR_UNAUTHORIZED = 401;
     public static final Integer CODE_ERROR_FORBIDDEN = 403;
@@ -47,22 +46,6 @@ public class Result {
 
     public static Result ok(String title, Object data) {
         return new Result(CODE_SUCCESS_OK, title, data);
-    }
-
-    public static Result created() {
-        return new Result(CODE_SUCCESS_CREATED, MSG_REQUEST_SUCCESS, null);
-    }
-
-    public static Result created(Object data) {
-        return new Result(CODE_SUCCESS_CREATED, MSG_REQUEST_SUCCESS, data);
-    }
-
-    public static Result created(String msg) {
-        return new Result(CODE_SUCCESS_CREATED, msg, null);
-    }
-
-    public static Result created(String title, Object data) {
-        return new Result(CODE_SUCCESS_CREATED, title, data);
     }
 
     public static Result badRequest() {

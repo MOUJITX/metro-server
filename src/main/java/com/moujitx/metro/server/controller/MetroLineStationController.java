@@ -49,7 +49,7 @@ public class MetroLineStationController {
     @AuthAccess
     @PostMapping()
     public Result addOrUpdate(@RequestBody MetroLineStation bind) {
-        return Result.created(metroLineStationService.saveOrUpdate(bind));
+        return Result.ok(metroLineStationService.saveOrUpdate(bind));
     }
 
     @AuthAccess

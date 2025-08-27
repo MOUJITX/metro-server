@@ -3,6 +3,7 @@ package com.moujitx.metro.server.entity;
 import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
@@ -33,4 +34,7 @@ public class MetroCity implements Serializable {
     @TableField("city_spell")
     private String citySpell;
 
+    @TableLogic
+    @TableField("is_deleted")
+    private Byte isDeleted;
 }

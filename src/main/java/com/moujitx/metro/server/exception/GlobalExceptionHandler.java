@@ -35,9 +35,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SQLException.class)
     @ResponseBody
     public Result sqlException(SQLException e) {
-        // System.out.println(e.getSQLState());
-        // System.out.println(e.getErrorCode());
-        // System.out.println(e);
         switch (e.getErrorCode()) {
             case 1062:
                 return Result.conflict(e.getMessage());
