@@ -10,6 +10,7 @@ import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.SystemUser;
 import com.moujitx.metro.server.entity.SystemUserLogin;
 import com.moujitx.metro.server.entity.SystemUserRole;
+import com.moujitx.metro.server.exception.NotFoundException;
 import com.moujitx.metro.server.service.ISystemPermissionService;
 import com.moujitx.metro.server.service.ISystemRolePermissionService;
 import com.moujitx.metro.server.service.ISystemUserRoleService;
@@ -81,6 +82,9 @@ public class SystemUserController {
     @GetMapping()
     public Result get(@RequestParam String id) {
         SystemUser user = systemUserService.getById(id);
+        if (user == null) {
+            throw new NotFoundException("user not found");
+        }
         List<String> roleIds = systemUserRoleService.getUserRolesByUserId(id)
                 .stream()
                 .map(SystemUserRole::getRoleId)
@@ -152,6 +156,9 @@ public class SystemUserController {
             @RequestParam(name = "refresh_cache") Boolean refreshCache,
             HttpServletRequest request) {
         String token = request.getHeader("authorization");
+        if (token.startsWith("Bearer ")) {
+            token = token.replace("Bearer ", "");
+        }
         String userId = TokenUtils.getUUID(token);
         SystemUser user = systemUserService.getById(userId);
         return Result.ok(mapLoginResult(user, Boolean.TRUE.equals(refreshCache) ? null : token));

@@ -2,6 +2,7 @@ package com.moujitx.metro.server.exception;
 
 import com.moujitx.metro.server.common.Result;
 import com.qiniu.common.QiniuException;
+
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,7 +42,7 @@ public class GlobalExceptionHandler {
             case 1062:
                 return Result.conflict(e.getMessage());
             default:
-                return Result.internalServerError(e.getMessage());
+                return Result.internalServerError(e.getErrorCode() + ": " + e.getMessage());
         }
     }
 
@@ -61,5 +62,11 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result exception(NoHandlerFoundException e) {
         return Result.internalServerError(e.getMessage());
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseBody
+    public Result exception(NotFoundException e) {
+        return Result.notFound(e.getMessage());
     }
 }
