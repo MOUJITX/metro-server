@@ -32,7 +32,8 @@ public class TokenUtils {
 
     public static String getUUID(String token) {
         try {
-            return JWT.of(token).getPayload("uuid").toString();
+            String tokenBody = token.replaceFirst("Bearer ", "");
+            return JWT.of(tokenBody).getPayload("uuid").toString();
         } catch (Exception e) {
             throw new AuthorizationException("Get uuid failed");
         }
@@ -40,7 +41,8 @@ public class TokenUtils {
 
     public static Boolean verifyToken(String token) {
         try {
-            return JWT.of(token).setKey(KEY.getBytes()).validate(0);
+            String tokenBody = token.replaceFirst("Bearer ", "");
+            return JWT.of(tokenBody).setKey(KEY.getBytes()).validate(0);
         } catch (Exception e) {
             return false;
         }

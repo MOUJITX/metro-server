@@ -27,4 +27,26 @@ public class SystemUserRoleServiceImpl extends ServiceImpl<SystemUserRoleMapper,
         return this.list(queryWrapper);
     }
 
+    public Boolean saveOrUpdateUserRoles(String userId, List<String> roleIds) {
+        this.getUserRolesByUserId(userId).forEach(
+                userRole -> {
+                    if (!roleIds.contains(userRole.getRoleId())) {
+                        this.removeById(userRole.getId());
+                    }
+                });
+
+        roleIds.forEach(
+                roleId -> {
+                    if (this.getUserRolesByUserId(userId).stream()
+                            .noneMatch(userRole -> userRole.getRoleId().equals(roleId))) {
+                        SystemUserRole userRole = new SystemUserRole();
+                        userRole.setUserId(userId);
+                        userRole.setRoleId(roleId);
+                        this.save(userRole);
+                    }
+                });
+
+        return true;
+    }
+
 }

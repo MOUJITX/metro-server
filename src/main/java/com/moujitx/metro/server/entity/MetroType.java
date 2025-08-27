@@ -25,7 +25,6 @@ public class MetroType implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "type_code", type = IdType.ASSIGN_ID)
-    @TableField("type_code")
     private String typeCode;
 
     @TableField("type_name")

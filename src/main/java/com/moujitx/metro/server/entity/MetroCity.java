@@ -25,7 +25,6 @@ public class MetroCity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "city_code", type = IdType.ASSIGN_ID)
-    @TableField("city_code")
     private String cityCode;
 
     @TableField("city_name")

@@ -27,7 +27,6 @@ public class MetroLine implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "uuid", type = IdType.ASSIGN_UUID)
-    @TableField("uuid")
     private String uuid;
 
     @TableField("city_code")

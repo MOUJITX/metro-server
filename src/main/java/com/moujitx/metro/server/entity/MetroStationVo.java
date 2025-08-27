@@ -26,7 +26,6 @@ public class MetroStationVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableField("station_uuid")
     @TableId(value = "station_uuid", type = IdType.ASSIGN_UUID)
     private String stationUuid;
 

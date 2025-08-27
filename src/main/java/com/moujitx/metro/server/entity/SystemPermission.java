@@ -27,7 +27,6 @@ public class SystemPermission implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
-    @TableField("id")
     private String id;
 
     @TableField("name")
