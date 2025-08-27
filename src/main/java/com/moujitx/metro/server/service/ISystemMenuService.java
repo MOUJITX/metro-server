@@ -4,6 +4,7 @@ import com.moujitx.metro.server.entity.SystemMenu;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -19,4 +20,8 @@ public interface ISystemMenuService extends IService<SystemMenu> {
     List<SystemMenu> getMenusByParentId();
 
     List<SystemMenu> getMenusByParentId(String parentId);
+
+    Page<SystemMenu> getMenuTreePage(Boolean isShowButton, Integer page, Integer pageSize);
+
+    List<SystemMenu> getMenuTree(Boolean isShowButton);
 }

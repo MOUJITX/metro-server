@@ -8,9 +8,12 @@ import cn.hutool.core.text.CharSequenceUtil;
 import lombok.RequiredArgsConstructor;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -62,6 +65,56 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
         queryWrapper.eq("parent_id", parentId);
         List<SystemMenu> menus = this.list(queryWrapper);
         return getMenusPermissionName(menus);
+    }
+
+    public List<SystemMenu> getMenuTree(Boolean isShowButton) {
+        List<SystemMenu> rootMenus = this.getMenusByParentId();
+        for (SystemMenu rootMenu : rootMenus) {
+            buildMenuTree(rootMenu, isShowButton);
+        }
+        return rootMenus;
+    }
+
+    public Page<SystemMenu> getMenuTreePage(Boolean isShowButton, Integer page, Integer pageSize) {
+        QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
+        queryWrapper.isNull("parent_id");
+        Page<SystemMenu> menuPage = this.page(new Page<>(page, pageSize), queryWrapper);
+
+        List<SystemMenu> records = menuPage.getRecords();
+        List<SystemMenu> processedRecords = new ArrayList<>();
+
+        for (SystemMenu rootMenu : records) {
+            buildMenuTree(rootMenu, isShowButton);
+            processedRecords.add(rootMenu);
+        }
+
+        Page<SystemMenu> resultPage = new Page<>(menuPage.getCurrent(), menuPage.getSize(), menuPage.getTotal());
+        resultPage.setRecords(processedRecords);
+
+        return resultPage;
+    }
+
+    private void buildMenuTree(SystemMenu menu, Boolean showButton) {
+        List<SystemMenu> children = this.getMenusByParentId(menu.getId());
+
+        if (children == null) {
+            return;
+        }
+
+        List<SystemMenu> filteredChildren = children;
+        if (Boolean.FALSE.equals(showButton)) {
+            filteredChildren = children.stream()
+                    .filter(child -> child.getType() != 3)
+                    .collect(Collectors.toList());
+        }
+
+        if (!filteredChildren.isEmpty()) {
+            menu.setChildren(filteredChildren);
+        }
+
+        for (SystemMenu child : children) {
+            buildMenuTree(child, showButton);
+        }
     }
 
 }
