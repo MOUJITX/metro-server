@@ -16,5 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ISystemUserRoleService extends IService<SystemUserRole> {
     List<SystemUserRole> getUserRolesByUserId(String userId);
 
+    List<String> getUserRoleNamesByUserId(String userId);
+
     Boolean saveOrUpdateUserRoles(String userId, List<String> roleIds);
 }

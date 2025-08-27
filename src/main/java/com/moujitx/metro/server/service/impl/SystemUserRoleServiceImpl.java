@@ -1,12 +1,14 @@
 package com.moujitx.metro.server.service.impl;
 
 import com.moujitx.metro.server.entity.SystemUserRole;
+import com.moujitx.metro.server.mapper.SystemRoleMapper;
 import com.moujitx.metro.server.mapper.SystemUserRoleMapper;
 import com.moujitx.metro.server.service.ISystemUserRoleService;
+import lombok.RequiredArgsConstructor;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,11 @@ import org.springframework.stereotype.Service;
  * @author MOUJITX
  */
 @Service
+@RequiredArgsConstructor
 public class SystemUserRoleServiceImpl extends ServiceImpl<SystemUserRoleMapper, SystemUserRole>
         implements ISystemUserRoleService {
+
+    private final SystemRoleMapper systemRoleMapper;
 
     public List<SystemUserRole> getUserRolesByUserId(String userId) {
         QueryWrapper<SystemUserRole> queryWrapper = new QueryWrapper<>();
@@ -47,6 +52,14 @@ public class SystemUserRoleServiceImpl extends ServiceImpl<SystemUserRoleMapper,
                 });
 
         return true;
+    }
+
+    @Override
+    public List<String> getUserRoleNamesByUserId(String userId) {
+        return this.getUserRolesByUserId(userId)
+                .stream()
+                .map(role -> systemRoleMapper.selectById(role.getRoleId()).getName())
+                .collect(Collectors.toList());
     }
 
 }

@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemUser> implements ISystemUserService {
+
     public SystemUser authenticate(String username, String password) {
         QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);
@@ -33,7 +34,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
             throw new AuthorizationException();
         }
 
-        if (user.getStatus().equals(false)) {
+        if (user.getStatus() == 0) {
             throw new AuthorizationException("Forbidden User");
         }
 
@@ -42,6 +43,12 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
 
     public Page<SystemUser> page(Integer page, Integer pageSize) {
         return this.page(new Page<>(page, pageSize));
+    }
+
+    public String addUser(SystemUser systemUser) {
+        this.save(systemUser);
+        systemUser = this.getOne(new QueryWrapper<SystemUser>().eq("username", systemUser.getUsername()));
+        return systemUser.getId();
     }
 
 }

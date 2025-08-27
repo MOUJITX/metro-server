@@ -15,4 +15,6 @@ public interface ISystemUserService extends IService<SystemUser> {
     SystemUser authenticate(String username, String password);
 
     Page<SystemUser> page(Integer page, Integer pageSize);
+
+    String addUser(SystemUser systemUser);
 }

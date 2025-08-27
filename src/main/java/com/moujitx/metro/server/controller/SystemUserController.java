@@ -2,6 +2,8 @@ package com.moujitx.metro.server.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.moujitx.metro.server.authorization.AuthAccess;
 import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.SystemUser;
@@ -54,7 +56,15 @@ public class SystemUserController {
 
     @GetMapping("/page")
     public Result page(@RequestParam Integer page, @RequestParam Integer pageSize) {
-        return Result.ok(systemUserService.page(page, pageSize));
+        Page<SystemUser> users = systemUserService.page(page, pageSize);
+
+        IPage<SystemUser> usersPage = users.convert(user -> {
+            List<String> roleNames = systemUserRoleService.getUserRoleNamesByUserId(user.getId());
+            user.setRolesName(roleNames);
+            return user;
+        });
+
+        return Result.ok(usersPage);
     }
 
     @GetMapping()
@@ -70,7 +80,8 @@ public class SystemUserController {
 
     @PostMapping()
     public Result save(@RequestBody SystemUser user) {
-        systemUserService.save(user);
+        String userId = systemUserService.addUser(user);
+        systemUserRoleService.saveOrUpdateUserRoles(userId, user.getRoleIds());
         return Result.ok();
     }
 
