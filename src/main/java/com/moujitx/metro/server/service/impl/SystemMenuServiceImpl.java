@@ -117,4 +117,9 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
         }
     }
 
+    public SystemMenu add(SystemMenu menu) {
+        this.save(menu);
+        return menu;
+    }
+
 }

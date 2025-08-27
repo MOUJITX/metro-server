@@ -24,4 +24,6 @@ public interface ISystemMenuService extends IService<SystemMenu> {
     Page<SystemMenu> getMenuTreePage(Boolean isShowButton, Integer page, Integer pageSize);
 
     List<SystemMenu> getMenuTree(Boolean isShowButton);
+
+    SystemMenu add(SystemMenu menu);
 }

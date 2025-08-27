@@ -78,4 +78,7 @@ public class SystemMenu implements Serializable {
 
     @TableField(exist = false)
     private String key;
+
+    @TableField(exist = false)
+    private List<String> actions;
 }
