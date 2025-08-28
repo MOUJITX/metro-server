@@ -3,6 +3,7 @@ package com.moujitx.metro.server.exception;
 import com.moujitx.metro.server.common.Result;
 import com.qiniu.common.QiniuException;
 
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,5 +70,11 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result exception(NotFoundException e) {
         return Result.notFound(e.getMessage());
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseBody
+    public Result exception(MissingServletRequestParameterException e) {
+        return Result.badRequest(e.getMessage());
     }
 }

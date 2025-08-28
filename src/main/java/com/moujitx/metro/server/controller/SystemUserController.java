@@ -54,7 +54,7 @@ public class SystemUserController {
 
     @GetMapping("/")
     public Result list() {
-        return Result.ok(systemUserService.page(null));
+        return Result.ok(systemUserService.list());
     }
 
     @GetMapping("/page")
@@ -154,7 +154,7 @@ public class SystemUserController {
 
     @GetMapping("/refreshPermissions")
     public Result postMethodName(
-            @RequestParam(name = "refresh_cache") Boolean refreshCache,
+            @RequestParam(name = "refresh_cache", defaultValue = "false") Boolean refreshCache,
             HttpServletRequest request) {
         String token = request.getHeader("authorization");
         if (token.startsWith("Bearer ")) {
