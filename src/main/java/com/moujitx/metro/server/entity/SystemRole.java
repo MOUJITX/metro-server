@@ -1,6 +1,7 @@
 package com.moujitx.metro.server.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -47,5 +48,8 @@ public class SystemRole implements Serializable {
     @TableLogic
     @TableField("is_deleted")
     private Byte isDeleted;
+
+    @TableField(exist = false)
+    private List<String> authorize;
 
 }
