@@ -1,6 +1,7 @@
 package com.moujitx.metro.server.service.impl;
 
 import com.moujitx.metro.server.entity.SystemRoleMenu;
+import com.moujitx.metro.server.entity.SystemUserRole;
 import com.moujitx.metro.server.mapper.SystemRoleMenuMapper;
 import com.moujitx.metro.server.service.ISystemRoleMenuService;
 
@@ -26,24 +27,37 @@ import org.springframework.stereotype.Service;
 public class SystemRoleMenuServiceImpl extends ServiceImpl<SystemRoleMenuMapper, SystemRoleMenu>
         implements ISystemRoleMenuService {
 
-    private final SystemRoleMenuMapper systemRoleMenuMapper;
+    public void addOrUpdateRoleMenu(String roleId,  List<String> menuIds) {
+        this.getRoleMenusByRoleId(roleId).forEach(
+                savedMenu -> {
+                    if (!menuIds.contains(savedMenu.getMenuId()))
+                        this.removeById(savedMenu.getId());
+                }
+        );
 
-    public void addRoleMenu(String roleId, String menuId) {
-        SystemRoleMenu roleMenu = new SystemRoleMenu()
-                .setRoleId(roleId)
-                .setMenuId(menuId);
-        systemRoleMenuMapper.insert(roleMenu);
+        menuIds.forEach(
+                menuId -> {
+                    if (!this.getMenuIdsByRoleId(roleId).contains(menuId)){
+                        SystemRoleMenu roleMenu = new SystemRoleMenu()
+                                .setRoleId(roleId)
+                                .setMenuId(menuId);
+                        this.save(roleMenu);
+                    }
+                }
+        );
     }
 
-    public List<SystemRoleMenu> getRoleMenus(String roleId) {
+    public List<SystemRoleMenu> getRoleMenusByRoleId(String roleId) {
         QueryWrapper<SystemRoleMenu> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("role_id", roleId);
-        return systemRoleMenuMapper.selectList(queryWrapper);
+        return this.list(queryWrapper);
     }
+
+
 
     public List<String> getMenuIdsByRoleId(String roleId) {
         List<String> menuIds = new ArrayList<>();
-        this.getRoleMenus(roleId).forEach(roleMenu -> menuIds.add(roleMenu.getMenuId()));
+        this.getRoleMenusByRoleId(roleId).forEach(roleMenu -> menuIds.add(roleMenu.getMenuId()));
         return menuIds;
     }
 

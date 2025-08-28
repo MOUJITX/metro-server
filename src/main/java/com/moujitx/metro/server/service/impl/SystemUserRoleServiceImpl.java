@@ -32,7 +32,7 @@ public class SystemUserRoleServiceImpl extends ServiceImpl<SystemUserRoleMapper,
         return this.list(queryWrapper);
     }
 
-    public Boolean saveOrUpdateUserRoles(String userId, List<String> roleIds) {
+    public void saveOrUpdateUserRoles(String userId, List<String> roleIds) {
         this.getUserRolesByUserId(userId).forEach(
                 userRole -> {
                     if (!roleIds.contains(userRole.getRoleId())) {
@@ -51,7 +51,6 @@ public class SystemUserRoleServiceImpl extends ServiceImpl<SystemUserRoleMapper,
                     }
                 });
 
-        return true;
     }
 
     @Override

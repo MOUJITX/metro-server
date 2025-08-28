@@ -60,16 +60,21 @@ public class SystemRoleController {
         systemRoleService.save(role);
 
         if (role.getAuthorize() != null && !role.getAuthorize().isEmpty()) {
-            role.getAuthorize().forEach(menuId -> systemRoleMenuService.addRoleMenu(role.getId(), menuId));
+            systemRoleMenuService.addOrUpdateRoleMenu(role.getId(), role.getAuthorize());
         }
 
         return Result.ok();
     }
 
     @PutMapping()
-    public Result update(@RequestParam String id, @RequestBody SystemRole systemRole) {
-        systemRole.setId(id);
-        systemRoleService.updateById(systemRole);
+    public Result update(@RequestParam String id, @RequestBody SystemRole role) {
+        role.setId(id);
+        systemRoleService.updateById(role);
+
+        if (role.getAuthorize() != null) {
+            systemRoleMenuService.addOrUpdateRoleMenu(role.getId(), role.getAuthorize());
+        }
+
         return Result.ok();
     }
 

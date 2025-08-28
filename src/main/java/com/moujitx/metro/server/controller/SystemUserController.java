@@ -133,8 +133,10 @@ public class SystemUserController {
         systemUserRoleService.getUserRolesByUserId(user.getId()).forEach(
                 role -> {
                     List<String> menuIds = systemRoleMenuService.getMenuIdsByRoleId(role.getRoleId());
-                    List<String> routers = systemMenuService.getMenuRoutersByIds(menuIds);
-                    permissions.addAll(routers);
+                    if (!menuIds.isEmpty()){
+                        List<String> routers = systemMenuService.getMenuRoutersByIds(menuIds);
+                        permissions.addAll(routers);
+                    }
                 });
 
         Map<String, Object> resMap = new HashMap<>();

@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISystemRoleMenuService extends IService<SystemRoleMenu> {
 
-    void addRoleMenu(String roleId, String menuId);
+    void addOrUpdateRoleMenu(String roleId, List<String> menuIds);
 
     List<String> getMenuIdsByRoleId(String roleId);
 }
