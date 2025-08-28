@@ -1,6 +1,7 @@
 package com.moujitx.metro.server.service.impl;
 
 import com.moujitx.metro.server.entity.SystemMenu;
+import com.moujitx.metro.server.entity.SystemPermission;
 import com.moujitx.metro.server.mapper.SystemMenuMapper;
 import com.moujitx.metro.server.mapper.SystemPermissionMapper;
 import com.moujitx.metro.server.service.ISystemMenuService;
@@ -32,8 +33,10 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
 
     public void getMenuPermissionName(SystemMenu menu) {
         if (CharSequenceUtil.isNotBlank(menu.getPermissionId())) {
-            String permission = systemPermissionMapper.selectById(menu.getPermissionId()).getName();
-            menu.setRule(permission);
+            SystemPermission permission = systemPermissionMapper.selectById(menu.getPermissionId());
+            if (permission != null) {
+                menu.setRule(permission.getName());
+            }
             menu.setKey(menu.getRouter());
         }
     }
@@ -118,6 +121,14 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
     }
 
     public SystemMenu add(SystemMenu menu) {
+        if (CharSequenceUtil.isNotEmpty(menu.getRule())) {
+            SystemPermission permission = new SystemPermission()
+                    .setName(menu.getRule())
+                    .setDescription(menu.getLabel() + "的权限");
+            systemPermissionMapper.insert(permission);
+            menu.setPermissionId(permission.getId());
+        }
+
         this.save(menu);
         return menu;
     }

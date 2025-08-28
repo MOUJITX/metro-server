@@ -38,6 +38,10 @@ public class GlobalExceptionHandler {
         switch (e.getErrorCode()) {
             case 1062:
                 return Result.conflict(e.getMessage());
+            case 1451:
+                return Result.badRequest(e.getMessage());
+            case 1452:
+                return Result.badRequest(e.getMessage());
             default:
                 return Result.internalServerError(e.getErrorCode() + ": " + e.getMessage());
         }
