@@ -34,8 +34,4 @@ public class MetroType implements Serializable {
     @TableField("type_level")
     private String typeLevel;
 
-    @TableLogic
-    @TableField("is_deleted")
-    private Boolean isDeleted;
-
 }

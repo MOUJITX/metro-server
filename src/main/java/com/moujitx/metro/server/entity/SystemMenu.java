@@ -3,12 +3,9 @@ package com.moujitx.metro.server.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.OrderBy;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -64,12 +61,12 @@ public class SystemMenu implements Serializable {
     @TableField("parent_id")
     private String parentId;
 
-    @TableField("is_deleted")
-    private Boolean isDeleted;
-
     @TableField(exist = false)
     private List<SystemMenu> children;
 
     @TableField(exist = false)
     private List<String> actions;
+
+    @TableField(exist = false)
+    private String key; // as same as 'router'
 }

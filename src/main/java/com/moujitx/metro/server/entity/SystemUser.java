@@ -46,10 +46,6 @@ public class SystemUser implements Serializable {
     @TableField("status")
     private Byte status;
 
-    @TableField("is_deleted")
-    @TableLogic
-    private Boolean isDeleted;
-
     @TableField("created_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;

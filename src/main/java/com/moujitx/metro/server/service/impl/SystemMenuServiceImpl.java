@@ -69,6 +69,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
     }
 
     private void buildMenuTree(SystemMenu menu, Boolean showButton, Boolean state) {
+        menu.setKey(menu.getRouter());
         List<SystemMenu> children = this.getMenusByParentId(menu.getId(), state);
 
         if (children == null) {

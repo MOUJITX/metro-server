@@ -37,8 +37,4 @@ public class MetroLineStation implements Serializable {
     @TableField("sort")
     private Integer sort;
 
-    @TableLogic
-    @TableField("is_deleted")
-    private Boolean isDeleted;
-
 }

@@ -142,7 +142,7 @@ public class SystemUserController {
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("token", token);
         resMap.put("user", resUser);
-        resMap.put("permissions", permissions);
+        resMap.put("permissions", permissions.stream().distinct().collect(Collectors.toList()));
 
         return resMap;
     }

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.List;
+
 /**
  * <p>
  * 控制器
@@ -52,7 +54,10 @@ public class SystemRoleController {
 
     @GetMapping()
     public Result get(@RequestParam String id) {
-        return Result.ok(systemRoleService.getById(id));
+        SystemRole role = systemRoleService.getById(id);
+        List<String> menus = systemRoleMenuService.getMenuIdsByRoleId(id);
+        role.setAuthorize(menus);
+        return Result.ok(role);
     }
 
     @PostMapping()

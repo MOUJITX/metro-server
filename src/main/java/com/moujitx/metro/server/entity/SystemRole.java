@@ -45,10 +45,6 @@ public class SystemRole implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    @TableLogic
-    @TableField("is_deleted")
-    private Boolean isDeleted;
-
     @TableField(exist = false)
     private List<String> authorize;
 

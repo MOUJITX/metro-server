@@ -60,8 +60,4 @@ public class MetroStation implements Serializable {
      */
     @TableField("station_status")
     private String stationStatus;
-
-    @TableLogic
-    @TableField("is_deleted")
-    private Boolean isDeleted;
 }

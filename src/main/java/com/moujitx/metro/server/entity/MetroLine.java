@@ -66,8 +66,4 @@ public class MetroLine implements Serializable {
      */
     @TableField("line_status")
     private String lineStatus;
-
-    @TableLogic
-    @TableField("is_deleted")
-    private Boolean isDeleted;
 }

@@ -34,8 +34,4 @@ public class SystemUserRole implements Serializable {
     @TableField("role_id")
     private String roleId;
 
-    @TableLogic
-    @TableField("is_deleted")
-    private Boolean isDeleted;
-
 }

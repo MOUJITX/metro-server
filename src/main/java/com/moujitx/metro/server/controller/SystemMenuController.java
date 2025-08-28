@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * 控制器
@@ -55,7 +58,7 @@ public class SystemMenuController {
     public Result add(@RequestBody SystemMenu menu) {
         systemMenuService.save(menu);
 
-        if (menu.getActions() != null) {
+        if (menu.getType() == 2 && menu.getActions() != null) {
             menu.getActions().forEach(action -> {
                 SystemMenu actionMenu = new SystemMenu()
                         .setLabel(action)

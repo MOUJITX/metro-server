@@ -33,8 +33,4 @@ public class MetroCity implements Serializable {
 
     @TableField("city_spell")
     private String citySpell;
-
-    @TableLogic
-    @TableField("is_deleted")
-    private Boolean isDeleted;
 }

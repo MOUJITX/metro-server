@@ -33,8 +33,4 @@ public class SystemRoleMenu implements Serializable {
 
     @TableField("menu_id")
     private String menuId;
-
-    @TableLogic
-    @TableField("is_deleted")
-    private Boolean isDeleted;
 }
