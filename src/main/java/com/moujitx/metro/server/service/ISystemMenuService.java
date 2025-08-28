@@ -17,13 +17,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface ISystemMenuService extends IService<SystemMenu> {
     SystemMenu getMenuById(String id);
 
-    List<SystemMenu> getMenusByParentId();
+    List<SystemMenu> getMenusByParentId(String parentId, Byte state);
 
-    List<SystemMenu> getMenusByParentId(String parentId);
+    Page<SystemMenu> getMenuTreePage(Boolean isShowButton, Byte state, Integer page, Integer pageSize);
 
-    Page<SystemMenu> getMenuTreePage(Boolean isShowButton, Integer page, Integer pageSize);
-
-    List<SystemMenu> getMenuTree(Boolean isShowButton);
+    List<SystemMenu> getMenuTree(Boolean isShowButton, Byte state);
 
     SystemMenu add(SystemMenu menu);
 }

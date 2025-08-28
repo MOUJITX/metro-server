@@ -6,6 +6,7 @@ import com.moujitx.metro.server.mapper.SystemMenuMapper;
 import com.moujitx.metro.server.mapper.SystemPermissionMapper;
 import com.moujitx.metro.server.service.ISystemMenuService;
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -56,38 +57,34 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
         return menus;
     }
 
-    public List<SystemMenu> getMenusByParentId() {
+    public List<SystemMenu> getMenusByParentId(String parentId, Byte state) {
         QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.isNull("parent_id");
+        queryWrapper.eq(CharSequenceUtil.isNotBlank(parentId), "parent_id", parentId)
+                .isNull(CharSequenceUtil.isBlank(parentId), "parent_id")
+                .eq(!StrUtil.isBlankIfStr(state), "state", state);
         List<SystemMenu> menus = this.list(queryWrapper);
         return getMenusPermissionName(menus);
     }
 
-    public List<SystemMenu> getMenusByParentId(String parentId) {
-        QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("parent_id", parentId);
-        List<SystemMenu> menus = this.list(queryWrapper);
-        return getMenusPermissionName(menus);
-    }
-
-    public List<SystemMenu> getMenuTree(Boolean isShowButton) {
-        List<SystemMenu> rootMenus = this.getMenusByParentId();
+    public List<SystemMenu> getMenuTree(Boolean isShowButton, Byte state) {
+        List<SystemMenu> rootMenus = this.getMenusByParentId(null, state);
         for (SystemMenu rootMenu : rootMenus) {
-            buildMenuTree(rootMenu, isShowButton);
+            buildMenuTree(rootMenu, isShowButton, state);
         }
         return rootMenus;
     }
 
-    public Page<SystemMenu> getMenuTreePage(Boolean isShowButton, Integer page, Integer pageSize) {
+    public Page<SystemMenu> getMenuTreePage(Boolean isShowButton, Byte state, Integer page, Integer pageSize) {
         QueryWrapper<SystemMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.isNull("parent_id");
+        queryWrapper.isNull("parent_id")
+                .eq(!StrUtil.isBlankIfStr(state), "state", state);
         Page<SystemMenu> menuPage = this.page(new Page<>(page, pageSize), queryWrapper);
 
         List<SystemMenu> records = menuPage.getRecords();
         List<SystemMenu> processedRecords = new ArrayList<>();
 
         for (SystemMenu rootMenu : records) {
-            buildMenuTree(rootMenu, isShowButton);
+            buildMenuTree(rootMenu, isShowButton, state);
             processedRecords.add(rootMenu);
         }
 
@@ -97,8 +94,8 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
         return resultPage;
     }
 
-    private void buildMenuTree(SystemMenu menu, Boolean showButton) {
-        List<SystemMenu> children = this.getMenusByParentId(menu.getId());
+    private void buildMenuTree(SystemMenu menu, Boolean showButton, Byte state) {
+        List<SystemMenu> children = this.getMenusByParentId(menu.getId(), state);
 
         if (children == null) {
             return;
@@ -116,7 +113,7 @@ public class SystemMenuServiceImpl extends ServiceImpl<SystemMenuMapper, SystemM
         }
 
         for (SystemMenu child : children) {
-            buildMenuTree(child, showButton);
+            buildMenuTree(child, showButton, state);
         }
     }
 

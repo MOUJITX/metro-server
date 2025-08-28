@@ -34,14 +34,15 @@ public class SystemMenuController {
 
     @GetMapping("/")
     public Result list() {
-        return Result.ok(systemMenuService.getMenuTree(false));
+        return Result.ok(systemMenuService.getMenuTree(false, (byte) 1));
     }
 
     @GetMapping("/page")
     public Result page(
             @RequestParam Integer page,
-            @RequestParam Integer pageSize) {
-        return Result.ok(systemMenuService.getMenuTreePage(true, page, pageSize));
+            @RequestParam Integer pageSize,
+            @RequestParam(required = false) Byte state) {
+        return Result.ok(systemMenuService.getMenuTreePage(true, state, page, pageSize));
     }
 
     @GetMapping()
@@ -99,11 +100,17 @@ public class SystemMenuController {
 
         if (oldMenu.getRule() != null && menu.getRule() != null
                 && !CharSequenceUtil.equals(oldMenu.getRule(), menu.getRule())) {
-            SystemPermission permission = new SystemPermission().setId(menu.getPermissionId()).setName(menu.getRule());
-            systemPermissionService.updateById(permission);
+            SystemPermission newPermission = new SystemPermission().setId(oldMenu.getPermissionId())
+                    .setName(menu.getRule());
+            systemPermissionService.updateById(newPermission);
         }
 
         menu.setId(id);
+        return Result.ok(systemMenuService.updateById(menu));
+    }
+
+    @PutMapping("/changeState")
+    public Result changeState(@RequestBody SystemMenu menu) {
         return Result.ok(systemMenuService.updateById(menu));
     }
 
