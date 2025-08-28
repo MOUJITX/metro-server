@@ -44,7 +44,7 @@ public class SystemUser implements Serializable {
     private String email;
 
     @TableField("status")
-    private Byte status;
+    private Boolean status;
 
     @TableField("created_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

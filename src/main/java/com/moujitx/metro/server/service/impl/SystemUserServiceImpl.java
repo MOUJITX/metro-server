@@ -34,7 +34,7 @@ public class SystemUserServiceImpl extends ServiceImpl<SystemUserMapper, SystemU
             throw new AuthorizationException();
         }
 
-        if (user.getStatus() == 0) {
+        if (user.getStatus() == false) {
             throw new AuthorizationException("Forbidden User");
         }
 

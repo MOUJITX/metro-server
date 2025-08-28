@@ -62,10 +62,12 @@ public class SystemUserController {
             @RequestParam Integer page,
             @RequestParam Integer pageSize,
             @RequestParam(defaultValue = "false") Boolean fuzzy,
-            @RequestParam(defaultValue = "") String username) {
+            @RequestParam(defaultValue = "") String username,
+            @RequestParam(required = false) Boolean status) {
         QueryWrapper<SystemUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(CharSequenceUtil.isNotBlank(username) && Boolean.FALSE.equals(fuzzy), "username", username)
-                .like(Boolean.TRUE.equals(fuzzy), "username", username);
+                .like(Boolean.TRUE.equals(fuzzy), "username", username)
+                .eq(status != null, "status", status);
 
         Page<SystemUser> users = systemUserService.page(page, pageSize, queryWrapper);
 
@@ -107,6 +109,11 @@ public class SystemUserController {
             systemUserRoleService.saveOrUpdateUserRoles(userId, user.getRoleIds());
         }
         return Result.ok();
+    }
+
+    @PutMapping("/changeState")
+    public Result changeState(@RequestBody SystemUser user) {
+        return Result.ok(systemUserService.updateById(user));
     }
 
     @DeleteMapping()
