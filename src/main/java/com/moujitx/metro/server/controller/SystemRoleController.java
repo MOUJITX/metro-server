@@ -1,10 +1,5 @@
 package com.moujitx.metro.server.controller;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,19 +56,11 @@ public class SystemRoleController {
     }
 
     @PostMapping()
-    public Result add(@RequestBody SystemRole systemRole) {
-        systemRoleService.save(systemRole);
+    public Result add(@RequestBody SystemRole role) {
+        systemRoleService.save(role);
 
-        if (systemRole.getAuthorize() != null && !systemRole.getAuthorize().isEmpty()) {
-            systemRole.getAuthorize().forEach(
-                    menuId -> {
-                        SystemRoleMenu systemRoleMenu = new SystemRoleMenu()
-                                .setMenuId(menuId)
-                                .setRoleId(systemRole.getId());
-                        systemRoleMenuService.save(systemRoleMenu);
-
-                        
-                    });
+        if (role.getAuthorize() != null && !role.getAuthorize().isEmpty()) {
+            role.getAuthorize().forEach(menuId -> systemRoleMenuService.addRoleMenu(role.getId(), menuId));
         }
 
         return Result.ok();

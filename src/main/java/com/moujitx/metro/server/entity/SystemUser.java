@@ -48,7 +48,7 @@ public class SystemUser implements Serializable {
 
     @TableField("is_deleted")
     @TableLogic
-    private Byte isDeleted;
+    private Boolean isDeleted;
 
     @TableField("created_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

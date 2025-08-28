@@ -47,7 +47,7 @@ public class SystemRole implements Serializable {
 
     @TableLogic
     @TableField("is_deleted")
-    private Byte isDeleted;
+    private Boolean isDeleted;
 
     @TableField(exist = false)
     private List<String> authorize;

@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class SystemUserLogin {
+
     private String username;
+
     private String password;
 }

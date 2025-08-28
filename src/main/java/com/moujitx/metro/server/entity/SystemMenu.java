@@ -51,7 +51,7 @@ public class SystemMenu implements Serializable {
     private Integer sort;
 
     @TableField("state")
-    private Byte state;
+    private Boolean state;
 
     @TableField("created_at")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -65,19 +65,10 @@ public class SystemMenu implements Serializable {
     private String parentId;
 
     @TableField("is_deleted")
-    private Byte isDeleted;
-
-    @TableField("permission_id")
-    private String permissionId;
-
-    @TableField(exist = false)
-    private String rule;
+    private Boolean isDeleted;
 
     @TableField(exist = false)
     private List<SystemMenu> children;
-
-    @TableField(exist = false)
-    private String key;
 
     @TableField(exist = false)
     private List<String> actions;

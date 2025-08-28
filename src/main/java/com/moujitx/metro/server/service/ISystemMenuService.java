@@ -15,13 +15,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author MOUJITX
  */
 public interface ISystemMenuService extends IService<SystemMenu> {
-    SystemMenu getMenuById(String id);
 
-    List<SystemMenu> getMenusByParentId(String parentId, Byte state);
+    List<SystemMenu> getMenuTree();
 
-    Page<SystemMenu> getMenuTreePage(Boolean isShowButton, Byte state, Integer page, Integer pageSize);
+    Page<SystemMenu> getMenuButtonTreePage(Boolean state, Integer page, Integer pageSize);
 
-    List<SystemMenu> getMenuTree(Boolean isShowButton, Byte state);
+    List<String> getMenuRoutersByIds(List<String> ids);
 
-    SystemMenu add(SystemMenu menu);
 }

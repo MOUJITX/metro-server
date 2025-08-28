@@ -11,8 +11,8 @@ import com.moujitx.metro.server.entity.SystemUser;
 import com.moujitx.metro.server.entity.SystemUserLogin;
 import com.moujitx.metro.server.entity.SystemUserRole;
 import com.moujitx.metro.server.exception.NotFoundException;
-import com.moujitx.metro.server.service.ISystemPermissionService;
-import com.moujitx.metro.server.service.ISystemRolePermissionService;
+import com.moujitx.metro.server.service.ISystemMenuService;
+import com.moujitx.metro.server.service.ISystemRoleMenuService;
 import com.moujitx.metro.server.service.ISystemUserRoleService;
 import com.moujitx.metro.server.service.ISystemUserService;
 import com.moujitx.metro.server.utils.TokenUtils;
@@ -49,8 +49,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class SystemUserController {
     private final ISystemUserService systemUserService;
     private final ISystemUserRoleService systemUserRoleService;
-    private final ISystemRolePermissionService systemRolePermissionService;
-    private final ISystemPermissionService systemPermissionService;
+    private final ISystemRoleMenuService systemRoleMenuService;
+    private final ISystemMenuService systemMenuService;
 
     @GetMapping("/")
     public Result list() {
@@ -131,9 +131,11 @@ public class SystemUserController {
 
         List<String> permissions = new ArrayList<>();
         systemUserRoleService.getUserRolesByUserId(user.getId()).forEach(
-                role -> systemRolePermissionService.getRolePermissionsByRoleId(role.getRoleId()).forEach(
-                        permission -> permissions.add(systemPermissionService.getPermissionById(
-                                permission.getPermissionId()).getName())));
+                role -> {
+                    List<String> menuIds = systemRoleMenuService.getMenuIdsByRoleId(role.getRoleId());
+                    List<String> routers = systemMenuService.getMenuRoutersByIds(menuIds);
+                    permissions.addAll(routers);
+                });
 
         Map<String, Object> resMap = new HashMap<>();
         resMap.put("token", token);

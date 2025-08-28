@@ -69,5 +69,5 @@ public class MetroLine implements Serializable {
 
     @TableLogic
     @TableField("is_deleted")
-    private Byte isDeleted;
+    private Boolean isDeleted;
 }
