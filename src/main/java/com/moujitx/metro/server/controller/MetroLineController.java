@@ -39,13 +39,15 @@ public class MetroLineController {
                       @RequestParam Integer pageSize,
                       @RequestParam(required = false) String cityCode,
                       @RequestParam(required = false) String lineName,
-                      @RequestParam(required = false) String lineStatus) {
+                      @RequestParam(required = false) String lineStatus,
+                       @RequestParam(required = false) String lineType) {
         Page<MetroLineVo> queryPage = new Page<>(page, pageSize);
 
         QueryWrapper<MetroLineVo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(CharSequenceUtil.isNotBlank(cityCode), "city_code", cityCode)
                 .like(CharSequenceUtil.isNotBlank(lineName),"line_name", lineName)
-                .eq(CharSequenceUtil.isNotBlank(lineStatus), "line_status", lineStatus);
+                .eq(CharSequenceUtil.isNotBlank(lineStatus), "line_status", lineStatus)
+                .eq(CharSequenceUtil.isNotBlank(lineType), "type_id", lineType);
 
         return Result.ok(metroLineVoService.page(queryPage,queryWrapper));
     }
