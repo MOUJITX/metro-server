@@ -2,11 +2,9 @@ package com.moujitx.metro.server.entity;
 
 import java.time.LocalDate;
 import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
+
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -30,6 +28,7 @@ public class MetroStationVo implements Serializable {
     @TableField("id")
     private String id;
 
+    @OrderBy(sort = 1, asc = true)
     @TableField("city_code")
     private String cityCode;
 
@@ -64,6 +63,7 @@ public class MetroStationVo implements Serializable {
     /**
      * 运营、建设、规划、撤销
      */
+    @OrderBy(sort = 2, asc = true)
     @TableField("station_status")
     private String stationStatus;
 

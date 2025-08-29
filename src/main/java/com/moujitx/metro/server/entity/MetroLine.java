@@ -26,8 +26,9 @@ public class MetroLine implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "uuid", type = IdType.ASSIGN_UUID)
-    private String uuid;
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @TableField("id")
+    private String id;
 
     @TableField("city_code")
     private String cityCode;
@@ -47,8 +48,8 @@ public class MetroLine implements Serializable {
     @TableField("line_color")
     private String lineColor;
 
-    @TableField("type_code")
-    private String typeCode;
+    @TableField("line_type")
+    private String lineType;
 
     @TableField("enable_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
