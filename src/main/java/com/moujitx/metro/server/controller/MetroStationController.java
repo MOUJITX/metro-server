@@ -1,21 +1,20 @@
 package com.moujitx.metro.server.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import cn.hutool.core.text.CharSequenceUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.moujitx.metro.server.entity.MetroStationVo;
+import com.moujitx.metro.server.entity.MetroType;
+import org.springframework.web.bind.annotation.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.moujitx.metro.server.authorization.AuthAccess;
 import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.MetroStation;
 import com.moujitx.metro.server.service.IMetroStationService;
 import com.moujitx.metro.server.service.IMetroStationVoService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -31,29 +30,51 @@ public class MetroStationController {
     private final IMetroStationService metroStationService;
     private final IMetroStationVoService metroStationVoService;
 
-    @AuthAccess
     @GetMapping("/")
     public Result list() {
         return Result.ok(metroStationVoService.list());
     }
 
+    @GetMapping("/page")
+    public Result page(@RequestParam Integer page,
+                       @RequestParam Integer pageSize,
+                       @RequestParam(required = false) String cityCode,
+                       @RequestParam(required = false) String stationName,
+                       @RequestParam(required = false) String stationStatus) {
+        Page<MetroStationVo> queryPage = new Page<>(page, pageSize);
+
+        QueryWrapper<MetroStationVo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(CharSequenceUtil.isNotBlank(cityCode), "city_code", cityCode)
+                .like(CharSequenceUtil.isNotBlank(stationName), "station_name", stationName)
+                .eq(CharSequenceUtil.isNotBlank(stationStatus), "station_status", stationStatus);
+
+        return Result.ok(metroStationVoService.page(queryPage,queryWrapper));
+    }
+
     @GetMapping()
-    public Result get(@RequestParam String cityCode, @RequestParam String stationName) {
-        QueryWrapper<MetroStation> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("city_code", cityCode).eq("station_name", stationName);
-        return Result.ok(metroStationService.list(queryWrapper));
+    public Result get(@RequestParam String id) {
+        return Result.ok(metroStationService.getById(id));
     }
 
     @PostMapping()
-    public Result addOrUpdate(@RequestBody MetroStation station) {
-        return Result.ok(metroStationService.saveOrUpdate(station));
+    public Result add(@RequestBody MetroStation station) {
+        return Result.ok(metroStationService.save(station));
+    }
+
+    @PutMapping()
+    public Result update(@RequestParam String id, @RequestBody MetroStation station) {
+        station.setId(id);
+        return Result.ok(metroStationService.updateById(station));
     }
 
     @DeleteMapping()
-    public Result delete(@RequestParam String uuid) {
-        QueryWrapper<MetroStation> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("uuid", uuid);
-        return Result.ok(metroStationService.remove(queryWrapper));
+    public Result delete(@RequestParam String id) {
+        return Result.ok(metroStationService.removeById(id));
+    }
+
+    @PostMapping("/batchDelete")
+    public Result batchDelete(@RequestBody List<String> userIds) {
+        return Result.ok(metroStationService.removeByIds(userIds, true));
     }
 
 }

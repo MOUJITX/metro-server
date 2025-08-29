@@ -1,21 +1,15 @@
 package com.moujitx.metro.server.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.moujitx.metro.server.authorization.AuthAccess;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.web.bind.annotation.*;
+
 import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.MetroType;
 import com.moujitx.metro.server.service.IMetroTypeService;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -30,23 +24,44 @@ import org.springframework.web.bind.annotation.RestController;
 public class MetroTypeController {
     private final IMetroTypeService metroTypeService;
 
-    @AuthAccess
-    @GetMapping()
-    public Result get(@RequestParam(defaultValue = "") String typeCode) {
+    @GetMapping("/")
+    public Result list() {
+        return Result.ok(metroTypeService.list());
+    }
+
+    @GetMapping("/page")
+    public Result page(
+            @RequestParam Integer page,
+            @RequestParam Integer pageSize,
+            @RequestParam(required = false) String typeLevel,
+            @RequestParam(required = false) String typeName) {
+        Page<MetroType> queryPage = new Page<>(page, pageSize);
+
         QueryWrapper<MetroType> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(CharSequenceUtil.isNotBlank(typeCode), "type_code", typeCode);
-        return Result.ok(metroTypeService.list(queryWrapper));
+        queryWrapper.eq(CharSequenceUtil.isNotBlank(typeLevel), "type_level", typeLevel)
+                .like(CharSequenceUtil.isNotBlank(typeName), "type_name", typeName);
+
+        return Result.ok(metroTypeService.page(queryPage, queryWrapper));
+    }
+
+    @GetMapping()
+    public Result get(@RequestParam String id) {
+        return Result.ok(metroTypeService.getById(id));
     }
 
     @PostMapping()
-    public Result addOrUpdate(@RequestBody MetroType type) {
-        return Result.ok(metroTypeService.saveOrUpdate(type));
+    public Result add(@RequestBody MetroType type) {
+        return Result.ok(metroTypeService.save(type));
+    }
+
+    @PutMapping()
+    public Result update(@RequestParam String id, @RequestBody MetroType type) {
+        type.setId(id);
+        return Result.ok(metroTypeService.updateById(type));
     }
 
     @DeleteMapping()
-    public Result delete(@RequestParam String typeCode) {
-        QueryWrapper<MetroType> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("code", typeCode);
-        return Result.ok(metroTypeService.remove(queryWrapper));
+    public Result delete(@RequestParam String id) {
+        return Result.ok(metroTypeService.removeById(id));
     }
 }

@@ -1,11 +1,8 @@
 package com.moujitx.metro.server.entity;
 
 import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
+
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,13 +22,18 @@ public class MetroType implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "type_code", type = IdType.ASSIGN_ID)
-    private String typeCode;
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    @TableField("id")
+    private String id;
 
     @TableField("type_name")
     private String typeName;
 
     @TableField("type_level")
     private String typeLevel;
+
+    @OrderBy(sort = 1, asc = true)
+    @TableField("type_sort")
+    private Integer typeSort;
 
 }
