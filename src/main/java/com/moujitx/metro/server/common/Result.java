@@ -29,7 +29,7 @@ public class Result {
     public static final String MSG_INTERNAL_SERVER_ERROR = "Internal Server Error";
 
     private Integer code;
-    private String msg;
+    private String message;
     private Object data;
 
     public static Result ok() {

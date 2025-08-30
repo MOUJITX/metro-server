@@ -1,5 +1,6 @@
 package com.moujitx.metro.server.controller;
 
+import com.moujitx.metro.server.entity.SystemUserUpdatePassword;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -172,6 +173,24 @@ public class SystemUserController {
         String userId = TokenUtils.getUUID(token);
         SystemUser user = systemUserService.getById(userId);
         return Result.ok(mapLoginResult(user, Boolean.TRUE.equals(refreshCache) ? null : token));
+    }
+
+    @PostMapping("/updatePassword")
+    public Result updatePassword(@RequestBody SystemUserUpdatePassword updatePassword,
+                                 HttpServletRequest request) {
+        if (!updatePassword.getNewPassword().equals(updatePassword.getConfirmPassword())) {
+            return Result.badRequest("New password and confirm password are not matched.");
+        }
+
+        String userId = TokenUtils.getUUID(request.getHeader("authorization"));
+        SystemUser user = systemUserService.getById(userId);
+
+        if (!user.getPassword().equals(updatePassword.getOldPassword())) {
+            return Result.badRequest("Incorrect old password.");
+        }
+
+        user.setPassword(updatePassword.getNewPassword());
+        return Result.ok(systemUserService.updateById(user));
     }
 
 }

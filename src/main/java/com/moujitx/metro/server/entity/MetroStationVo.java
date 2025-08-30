@@ -25,7 +25,6 @@ public class MetroStationVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
-    @TableField("id")
     private String id;
 
     @OrderBy(sort = 1, asc = true)
@@ -58,6 +57,7 @@ public class MetroStationVo implements Serializable {
 
     @TableField("enable_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @OrderBy(sort = 3, asc = true)
     private LocalDate enableDate;
 
     /**

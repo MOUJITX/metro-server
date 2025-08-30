@@ -23,7 +23,6 @@ public class MetroCity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
-    @TableField(value = "id")
     private String id;
 
     @OrderBy(sort = 1, asc = true)

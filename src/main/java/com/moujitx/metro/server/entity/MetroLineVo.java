@@ -25,7 +25,6 @@ public class MetroLineVo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.ASSIGN_UUID)
-    @TableField("id")
     private String id;
 
     @OrderBy(sort = 1, asc = true)
@@ -38,7 +37,7 @@ public class MetroLineVo implements Serializable {
     @TableField("city_spell")
     private String citySpell;
 
-    @OrderBy(sort = 3, asc = true)
+    @OrderBy(sort = 4, asc = true)
     @TableField("line_code")
     private String lineCode;
 
@@ -76,5 +75,10 @@ public class MetroLineVo implements Serializable {
     @OrderBy(sort = 2, asc = true)
     @TableField("line_status")
     private String lineStatus;
+
+
+    @OrderBy(sort = 3, asc = true)
+    @TableField("type_sort")
+    private Integer typeSort;
 
 }
