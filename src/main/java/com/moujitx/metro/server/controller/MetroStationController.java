@@ -31,8 +31,10 @@ public class MetroStationController {
     private final IMetroStationVoService metroStationVoService;
 
     @GetMapping("/")
-    public Result list() {
-        return Result.ok(metroStationVoService.list());
+    public Result list(@RequestParam(required = false) String cityCode) {
+        QueryWrapper<MetroStationVo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(CharSequenceUtil.isNotBlank(cityCode), "city_code", cityCode);
+        return Result.ok(metroStationVoService.list(queryWrapper));
     }
 
     @GetMapping("/page")

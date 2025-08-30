@@ -25,8 +25,8 @@ public class MetroLineStation implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "uuid", type = IdType.ASSIGN_UUID)
-    private String uuid;
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    private String id;
 
     @TableField("line_code")
     private String lineCode;

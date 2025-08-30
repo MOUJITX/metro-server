@@ -1,10 +1,10 @@
 package com.moujitx.metro.server.entity;
 
 import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
+import java.time.LocalDate;
+
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -24,37 +24,37 @@ public class MetroLineStationVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "bind_uuid", type = IdType.ASSIGN_UUID)
-    private String bindUuid;
+    @TableId(value = "id", type = IdType.ASSIGN_UUID)
+    private String id;
 
-    @TableField("city_name")
-    private String cityName;
+    @TableField("line_code")
+    @OrderBy(sort = 1, asc = true)
+    private String lineCode;
 
-    @TableField("line_name")
-    private String lineName;
+    @TableField("station_code")
+    private String stationCode;
 
     @TableField("station_name")
     private String stationName;
 
-    /**
-     * 经度
-     */
+    @TableField("station_en")
+    private String stationEn;
+
     @TableField("station_longitude")
     private Double stationLongitude;
 
-    /**
-     * 纬度
-     */
     @TableField("station_latitude")
     private Double stationLatitude;
 
-    @TableField("sort")
-    private Integer sort;
+    @TableField("enable_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate enableDate;
 
-    @TableField("city_code")
-    private String cityCode;
+    @TableField("station_status")
+    private String stationStatus;
 
-    @TableField("line_code")
-    private String lineCode;
+    @TableField("station_sort")
+    @OrderBy(sort = 2, asc = true)
+    private Integer stationSort;
 
 }
