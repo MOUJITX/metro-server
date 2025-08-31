@@ -32,11 +32,14 @@ public class MetroLineStationController {
     private final IMetroLineStationService metroLineStationService;
     private final IMetroLineStationVoService metroLineStationVoService;
 
-    @GetMapping()
-    public Result get(@RequestParam String line) {
+    @GetMapping("/")
+    public Result getStations(@RequestParam String line) {
         QueryWrapper<MetroLineStationVo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("line_code",line);
         List<MetroLineStationVo> stations = metroLineStationVoService.list(queryWrapper);
+        stations.forEach( station -> station.setTransferLine(
+                metroLineStationService.getLinesByStationId(station.getStationCode())
+        ));
 
         MetroLineVo lineInfo = metroLineVoService.getById(line);
 
@@ -44,6 +47,11 @@ public class MetroLineStationController {
         map.put("line", lineInfo);
         map.put("stations", stations);
         return Result.ok(map);
+    }
+
+    @GetMapping()
+    public Result get(@RequestParam String id) {
+        return  Result.ok(metroLineStationService.getById(id));
     }
 
 
@@ -56,5 +64,11 @@ public class MetroLineStationController {
     public Result save(@RequestParam String line,@RequestBody MetroLineStation metroLineStation) {
         metroLineStation.setLineCode(line);
         return Result.ok(metroLineStationService.save(metroLineStation));
+    }
+
+    @PutMapping()
+    public Result update(@RequestParam String id, @RequestBody MetroLineStation metroLineStation){
+        metroLineStation.setId(id);
+        return Result.ok(metroLineStationService.updateById(metroLineStation));
     }
 }

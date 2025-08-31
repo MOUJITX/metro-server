@@ -37,4 +37,10 @@ public class MetroLineStation implements Serializable {
     @TableField("sort")
     private Integer sort;
 
+    @TableField(exist = false)
+    private String lineShortName;
+
+    @TableField(exist = false)
+    private String lineColor;
+
 }
