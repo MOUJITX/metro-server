@@ -38,6 +38,7 @@ public class MetroStationVo implements Serializable {
     private String citySpell;
 
     @TableField("station_name")
+    @OrderBy(sort = 4, asc = true)
     private String stationName;
 
     @TableField("station_en")
