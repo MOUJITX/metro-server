@@ -1,9 +1,12 @@
 package com.moujitx.metro.server.controller;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.moujitx.metro.server.entity.MetroStationVo;
 import com.moujitx.metro.server.entity.MetroType;
+import com.moujitx.metro.server.service.IMetroLineStationService;
 import org.springframework.web.bind.annotation.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -14,6 +17,7 @@ import com.moujitx.metro.server.service.IMetroStationVoService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +33,7 @@ import java.util.List;
 public class MetroStationController {
     private final IMetroStationService metroStationService;
     private final IMetroStationVoService metroStationVoService;
+    private final IMetroLineStationService metroLineStationService;
 
     @GetMapping("/")
     public Result list(@RequestParam(required = false) String cityCode) {
@@ -50,7 +55,22 @@ public class MetroStationController {
                 .like(CharSequenceUtil.isNotBlank(stationName), "station_name", stationName)
                 .eq(CharSequenceUtil.isNotBlank(stationStatus), "station_status", stationStatus);
 
-        return Result.ok(metroStationVoService.page(queryPage,queryWrapper));
+        return Result.ok(metroStationVoService(queryPage,queryWrapper));
+    }
+
+    Page<MetroStationVo> metroStationVoService(IPage<MetroStationVo> page, Wrapper<MetroStationVo> queryWrapper) {
+        IPage<MetroStationVo> originPage = metroStationVoService.page(page, queryWrapper);
+
+        List<MetroStationVo> records = originPage.getRecords();
+
+        for (MetroStationVo record : records) {
+            record.setTransferLine(metroLineStationService.getLinesByStationId(record.getId()));
+        }
+
+        Page<MetroStationVo> resultPage = new Page<>(page.getCurrent(), page.getSize(), originPage.getTotal());
+        resultPage.setRecords(records);
+
+        return resultPage;
     }
 
     @GetMapping()

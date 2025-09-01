@@ -2,6 +2,7 @@ package com.moujitx.metro.server.entity;
 
 import java.time.LocalDate;
 import java.io.Serializable;
+import java.util.List;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -66,5 +67,8 @@ public class MetroStationVo implements Serializable {
     @OrderBy(sort = 2, asc = true)
     @TableField("station_status")
     private String stationStatus;
+
+    @TableField(exist = false)
+    private List<MetroLineStation> transferLine;
 
 }
