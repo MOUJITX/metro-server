@@ -2,22 +2,18 @@ package com.moujitx.metro.server.controller;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.moujitx.metro.server.entity.MetroStationVo;
-import com.moujitx.metro.server.entity.MetroType;
-import com.moujitx.metro.server.service.IMetroLineStationService;
-import org.springframework.web.bind.annotation.*;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.moujitx.metro.server.common.Result;
 import com.moujitx.metro.server.entity.MetroStation;
+import com.moujitx.metro.server.entity.MetroStationVo;
+import com.moujitx.metro.server.service.IMetroLineStationService;
 import com.moujitx.metro.server.service.IMetroStationService;
 import com.moujitx.metro.server.service.IMetroStationVoService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,17 +41,26 @@ public class MetroStationController {
     @GetMapping("/page")
     public Result page(@RequestParam Integer page,
                        @RequestParam Integer pageSize,
+                       @RequestParam(required = false) String id,
                        @RequestParam(required = false) String cityCode,
                        @RequestParam(required = false) String stationName,
                        @RequestParam(required = false) String stationStatus) {
         Page<MetroStationVo> queryPage = new Page<>(page, pageSize);
 
         QueryWrapper<MetroStationVo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(CharSequenceUtil.isNotBlank(cityCode), "city_code", cityCode)
-                .like(CharSequenceUtil.isNotBlank(stationName), "station_name", stationName)
-                .eq(CharSequenceUtil.isNotBlank(stationStatus), "station_status", stationStatus);
+        queryWrapper
+                .eq(CharSequenceUtil.isNotBlank(id), "id", id)
+                .eq(CharSequenceUtil.isNotBlank(cityCode), "city_code", cityCode)
+                .eq(CharSequenceUtil.isNotBlank(stationStatus), "station_status", stationStatus)
+                .and(
+                        CharSequenceUtil.isNotBlank(stationName),
+                        i -> i
+                                .like(CharSequenceUtil.isNotBlank(stationName), "station_name", stationName)
+                                .or()
+                                .like(CharSequenceUtil.isNotBlank(stationName), "station_en", stationName)
+                );
 
-        return Result.ok(metroStationVoService(queryPage,queryWrapper));
+        return Result.ok(metroStationVoService(queryPage, queryWrapper));
     }
 
     Page<MetroStationVo> metroStationVoService(IPage<MetroStationVo> page, Wrapper<MetroStationVo> queryWrapper) {
