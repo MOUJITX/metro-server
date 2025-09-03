@@ -14,5 +14,6 @@ import java.util.List;
  * @author MOUJITX
  */
 public interface IMetroLineStationVoService extends IService<MetroLineStationVo> {
+    List<MetroLineStationVo> getStationsByLine(String line);
 
 }

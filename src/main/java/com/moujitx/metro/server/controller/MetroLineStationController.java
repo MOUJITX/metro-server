@@ -34,13 +34,7 @@ public class MetroLineStationController {
 
     @GetMapping("/")
     public Result getStations(@RequestParam String line) {
-        QueryWrapper<MetroLineStationVo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("line_code",line);
-        List<MetroLineStationVo> stations = metroLineStationVoService.list(queryWrapper);
-        stations.forEach( station -> station.setTransferLine(
-                metroLineStationService.getLinesByStationId(station.getStationCode())
-        ));
-
+        List<MetroLineStationVo> stations = metroLineStationVoService.getStationsByLine(line);
         MetroLineVo lineInfo = metroLineVoService.getById(line);
 
         Map<String, Object> map = new HashMap<>();
@@ -51,9 +45,8 @@ public class MetroLineStationController {
 
     @GetMapping()
     public Result get(@RequestParam String id) {
-        return  Result.ok(metroLineStationService.getById(id));
+        return Result.ok(metroLineStationService.getById(id));
     }
-
 
     @DeleteMapping()
     public Result delete(@RequestParam String id) {
@@ -61,13 +54,13 @@ public class MetroLineStationController {
     }
 
     @PostMapping()
-    public Result save(@RequestParam String line,@RequestBody MetroLineStation metroLineStation) {
+    public Result save(@RequestParam String line, @RequestBody MetroLineStation metroLineStation) {
         metroLineStation.setLineCode(line);
         return Result.ok(metroLineStationService.save(metroLineStation));
     }
 
     @PutMapping()
-    public Result update(@RequestParam String id, @RequestBody MetroLineStation metroLineStation){
+    public Result update(@RequestParam String id, @RequestBody MetroLineStation metroLineStation) {
         metroLineStation.setId(id);
         return Result.ok(metroLineStationService.updateById(metroLineStation));
     }

@@ -30,30 +30,35 @@ public class MetroLineController {
     private final IMetroLineVoService metroLineVoService;
 
     @GetMapping("/")
-    public Result list() {
-        return Result.ok(metroLineVoService.list());
+    public Result list(@RequestParam(required = false) String cityCode) {
+        QueryWrapper<MetroLineVo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(CharSequenceUtil.isNotBlank(cityCode), "city_code", cityCode);
+
+        return Result.ok(metroLineVoService.list(queryWrapper));
     }
 
     @GetMapping("/page")
     public Result page(@RequestParam Integer page,
-                      @RequestParam Integer pageSize,
-                      @RequestParam(required = false) String cityCode,
-                      @RequestParam(required = false) String lineName,
-                      @RequestParam(required = false) String lineStatus,
-                       @RequestParam(required = false) String lineType) {
+            @RequestParam Integer pageSize,
+            @RequestParam(required = false) String cityCode,
+            @RequestParam(required = false) String lineName,
+            @RequestParam(required = false) String lineStatus,
+            @RequestParam(required = false) String lineType) {
         Page<MetroLineVo> queryPage = new Page<>(page, pageSize);
 
         QueryWrapper<MetroLineVo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(CharSequenceUtil.isNotBlank(cityCode), "city_code", cityCode)
-                .like(CharSequenceUtil.isNotBlank(lineName),"line_name", lineName)
+                .like(CharSequenceUtil.isNotBlank(lineName), "line_name", lineName)
                 .eq(CharSequenceUtil.isNotBlank(lineStatus), "line_status", lineStatus)
                 .eq(CharSequenceUtil.isNotBlank(lineType), "type_id", lineType);
 
-        return Result.ok(metroLineVoService.page(queryPage,queryWrapper));
+        return Result.ok(metroLineVoService.page(queryPage, queryWrapper));
     }
 
     @GetMapping()
-    public Result get(@RequestParam String id) { return Result.ok(metroLineService.getById(id));}
+    public Result get(@RequestParam String id) {
+        return Result.ok(metroLineService.getById(id));
+    }
 
     @PostMapping()
     public Result add(@RequestBody MetroLine line) {
@@ -61,7 +66,7 @@ public class MetroLineController {
     }
 
     @PutMapping
-    public Result update(@RequestParam String id,@RequestBody MetroLine line) {
+    public Result update(@RequestParam String id, @RequestBody MetroLine line) {
         line.setId(id);
         return Result.ok(metroLineService.updateById(line));
     }

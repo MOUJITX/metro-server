@@ -26,7 +26,6 @@ public class MetroLineStationServiceImpl extends ServiceImpl<MetroLineStationMap
 
     private final MetroLineMapper metroLineMapper;
 
-    @Override
     public List<MetroLineStation> getLinesByStationId(String stationId) {
         QueryWrapper<MetroLineStation> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("station_code", stationId);

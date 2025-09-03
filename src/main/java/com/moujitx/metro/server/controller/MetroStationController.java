@@ -6,9 +6,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.moujitx.metro.server.common.Result;
+import com.moujitx.metro.server.entity.MetroLineStation;
 import com.moujitx.metro.server.entity.MetroStation;
 import com.moujitx.metro.server.entity.MetroStationVo;
 import com.moujitx.metro.server.service.IMetroLineStationService;
+import com.moujitx.metro.server.service.IMetroLineStationVoService;
 import com.moujitx.metro.server.service.IMetroStationService;
 import com.moujitx.metro.server.service.IMetroStationVoService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class MetroStationController {
     private final IMetroStationService metroStationService;
     private final IMetroStationVoService metroStationVoService;
     private final IMetroLineStationService metroLineStationService;
+    private final IMetroLineStationVoService metroLineStationVoService;
 
     @GetMapping("/")
     public Result list(@RequestParam(required = false) String cityCode) {
@@ -40,11 +43,11 @@ public class MetroStationController {
 
     @GetMapping("/page")
     public Result page(@RequestParam Integer page,
-                       @RequestParam Integer pageSize,
-                       @RequestParam(required = false) String id,
-                       @RequestParam(required = false) String cityCode,
-                       @RequestParam(required = false) String stationName,
-                       @RequestParam(required = false) String stationStatus) {
+            @RequestParam Integer pageSize,
+            @RequestParam(required = false) String id,
+            @RequestParam(required = false) String cityCode,
+            @RequestParam(required = false) String stationName,
+            @RequestParam(required = false) String stationStatus) {
         Page<MetroStationVo> queryPage = new Page<>(page, pageSize);
 
         QueryWrapper<MetroStationVo> queryWrapper = new QueryWrapper<>();
@@ -57,8 +60,7 @@ public class MetroStationController {
                         i -> i
                                 .like(CharSequenceUtil.isNotBlank(stationName), "station_name", stationName)
                                 .or()
-                                .like(CharSequenceUtil.isNotBlank(stationName), "station_en", stationName)
-                );
+                                .like(CharSequenceUtil.isNotBlank(stationName), "station_en", stationName));
 
         return Result.ok(metroStationVoService(queryPage, queryWrapper));
     }
@@ -85,7 +87,16 @@ public class MetroStationController {
 
     @PostMapping()
     public Result add(@RequestBody MetroStation station) {
-        return Result.ok(metroStationService.save(station));
+        metroStationService.save(station);
+
+        if (CharSequenceUtil.isNotBlank(station.getInitialLine())) {
+            MetroLineStation metroLineStation = new MetroLineStation();
+            metroLineStation.setLineCode(station.getInitialLine());
+            metroLineStation.setStationCode(station.getId());
+            metroLineStation.setSort(metroLineStationVoService.getStationsByLine(station.getInitialLine()).size() + 1);
+            metroLineStationService.save(metroLineStation);
+        }
+        return Result.ok();
     }
 
     @PutMapping()
