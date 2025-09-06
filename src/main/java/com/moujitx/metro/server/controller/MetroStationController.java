@@ -16,6 +16,7 @@ import com.moujitx.metro.server.service.IMetroStationVoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -96,13 +97,29 @@ public class MetroStationController {
             metroLineStation.setSort(metroLineStationVoService.getStationsByLine(station.getInitialLine()).size() + 1);
             metroLineStationService.save(metroLineStation);
         }
+
+        String transferStation = station.getTransferStation();
+        if (CharSequenceUtil.isNotBlank(transferStation)) {
+            MetroStation bindStation = metroStationService.getById(transferStation);
+            bindStation.setTransferStation(station.getId());
+            metroStationService.updateById(bindStation);
+        }
         return Result.ok();
     }
 
     @PutMapping()
     public Result update(@RequestParam String id, @RequestBody MetroStation station) {
         station.setId(id);
-        return Result.ok(metroStationService.updateById(station));
+        metroStationService.updateById(station);
+
+        String transferStation = station.getTransferStation();
+        if (CharSequenceUtil.isNotBlank(transferStation)) {
+            MetroStation bindStation = metroStationService.getById(transferStation);
+            bindStation.setTransferStation(id);
+            metroStationService.updateById(bindStation);
+        }
+
+        return Result.ok();
     }
 
     @DeleteMapping()

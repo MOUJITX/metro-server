@@ -69,6 +69,9 @@ public class MetroStationVo implements Serializable {
     @TableField("station_status")
     private String stationStatus;
 
+    @TableField("transfer_station")
+    private String transferStation;
+
     @TableField(exist = false)
     private List<MetroLineStation> transferLine;
 
