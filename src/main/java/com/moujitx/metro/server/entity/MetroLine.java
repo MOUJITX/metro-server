@@ -5,6 +5,7 @@ import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
@@ -50,7 +51,7 @@ public class MetroLine implements Serializable {
     @TableField("line_type")
     private String lineType;
 
-    @TableField("enable_date")
+    @TableField(value = "enable_date", updateStrategy = FieldStrategy.IGNORED)
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate enableDate;
 
