@@ -13,6 +13,7 @@ import com.moujitx.metro.server.service.IMetroLineStationVoService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,30 @@ public class MetroLineStationController {
         map.put("line", lineInfo);
         map.put("stations", stations);
         return Result.ok(map);
+    }
+
+    @GetMapping("/multiple")
+    public Result getStations(@RequestBody List<String> lineIds) {
+        List<Object> lines = new ArrayList<>();
+
+        lineIds.forEach(lineId -> {
+            MetroLineVo lineInfo = metroLineVoService.getById(lineId);
+
+            if (lineInfo == null) {
+                return;
+            }
+
+            QueryWrapper<MetroLineStationVo> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("line_code", lineId);
+            List<MetroLineStationVo> stations = metroLineStationVoService.list(queryWrapper);
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("line", lineInfo);
+            map.put("stations", stations);
+            lines.add(map);
+        });
+
+        return Result.ok(lines);
     }
 
     @GetMapping()
