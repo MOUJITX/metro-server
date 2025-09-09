@@ -66,4 +66,7 @@ public class MetroLine implements Serializable {
      */
     @TableField("line_status")
     private String lineStatus;
+
+    @TableField("line_sort")
+    private Integer lineSort;
 }
