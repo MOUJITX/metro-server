@@ -44,7 +44,7 @@ public class MetroLineStationController {
         return Result.ok(map);
     }
 
-    @GetMapping("/multiple")
+    @PostMapping("/multiple")
     public Result getStations(@RequestBody List<String> lineIds) {
         List<Object> lines = new ArrayList<>();
 
