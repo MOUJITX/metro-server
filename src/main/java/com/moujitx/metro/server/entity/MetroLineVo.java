@@ -5,6 +5,9 @@ import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.moujitx.metro.server.common.JSONArrayObjectTypeHandler;
+
+import cn.hutool.json.JSONArray;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -19,7 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("metro_line_vo")
+@TableName(value = "metro_line_vo", autoResultMap = true)
 public class MetroLineVo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -81,5 +84,8 @@ public class MetroLineVo implements Serializable {
     @OrderBy(sort = 3, asc = true)
     @TableField("line_sort")
     private Integer lineSort;
+
+    @TableField(value = "line_route", typeHandler = JSONArrayObjectTypeHandler.class)
+    private JSONArray lineRoute;
 
 }

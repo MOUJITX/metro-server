@@ -1,6 +1,8 @@
 package com.moujitx.metro.server.controller;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.json.JSONArray;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.moujitx.metro.server.entity.MetroLineVo;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ import com.moujitx.metro.server.service.IMetroLineVoService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * <p>
@@ -68,6 +72,13 @@ public class MetroLineController {
     @PutMapping
     public Result update(@RequestParam String id, @RequestBody MetroLine line) {
         line.setId(id);
+        return Result.ok(metroLineService.updateById(line));
+    }
+
+    @PutMapping("/route")
+    public Result updateLineRoute(@RequestParam String id, @RequestBody JSONArray router) {
+        MetroLine line = metroLineService.getById(id);
+        line.setLineRoute(router);
         return Result.ok(metroLineService.updateById(line));
     }
 
